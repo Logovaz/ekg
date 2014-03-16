@@ -31,6 +31,24 @@ form {
   text-align: right;
 }
 
+.header-menu {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.header-menu a {
+  color: #ffffff;
+  font-family: Verdana;
+  text-decoration: none;
+}
+
+.header-menu a:visited {
+  color: #ffffff;
+  font-family: Verdana;
+  font-size: 12pt;
+  text-decoration: none;
+}
+
 .footer {
   border: 1px #ffffff solid;
   background-color: #435a8e;
@@ -103,9 +121,32 @@ form {
   clear: both;
 }
 
+.error-block {
+  margin: 2px auto;
+  border: 1px #c11b17 solid;
+  background-color: #f6ced8;
+  padding: 5px 10px 5px 20px;
+  text-align: center;
+  font-size: 10pt;
+  font-weight: bold;
+  color: #c11b17;
+  clear: both;
+  width: 400px;
+}
+
 .header-btn {
   margin-top: 8px;
   margin-right: 6px;
+}
+
+.close-btn {
+  cursor: pointer;
+  float: right;
+  background: url(../images/common/close.png) no-repeat;
+  width: 20px;
+  height: 20px;
+  margin: -1px -4px 0px 0px;
+  padding: 0px;
 }
 
 .green-btn {
@@ -129,7 +170,7 @@ form {
   -moz-border-radius-bottomleft:0px;
   border-bottom-left-radius:0px;
   text-indent:0px;
-  border:1px solid #83c41a;
+  border: 1px solid #83c41a;
   display:inline-block;
   color:#ffffff;
   font-family:Verdana;
@@ -137,7 +178,7 @@ form {
   font-weight:bold;
   font-style:normal;
   height:26px;
-  line-height:26px;
+  line-height:24px;
   width:100px;
   text-decoration:none;
   text-align:center;

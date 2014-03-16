@@ -11,6 +11,24 @@
 |
 */
 
+/**
+ * Login routes
+ */
 Route::get('/', 'UserController@home');
+Route::get('login', 'UserController@login');
+Route::get('logout', 'UserController@logout');
+Route::post('login/process', array('before' => 'csrf', 'uses' => 'UserController@loginProcess'));
+
+/**
+ * Signup routes
+ */
 Route::get('signup', 'UserController@signup');
 Route::post('signup/process', array('before' => 'csrf', 'uses' => 'UserController@signupProcess'));
+Route::get('confirm', 'UserController@confirm');
+Route::post('confirm/process', array('before' => 'csrf', 'uses' => 'UserController@signupConfirm'));
+Route::get('signup/link/{id}/{code}', 'UserController@signupLink')->where('id', '[0-9]+')->where('code', '[0-9]+');
+
+/**
+ * Profile routes
+ */
+Route::get('profile', 'UserController@profile');

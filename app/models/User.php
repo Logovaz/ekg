@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends Eloquent implements UserInterface {
 
     /**
      * The database table used by the model.
@@ -50,16 +49,63 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
     
     public function register($args) {
+        if(!isset($args['login']) || !isset($args['password'])) {
+            return false;
+        }
         try {
+            $code = rand(100000, 999999);
             $id = DB::table('users')->insert(array(
                 'login' => $args['login'],
                 'password' => $args['password'],
-                'email' => $args['login']
+                'email' => $args['login'],
+                'code' => $code
             ));
+            $args['id'] = $id;
+            $args['code'] = $code;
+            $this->sendRegisterMail($args);
             return $id;
         } catch (Exception $e) {
             return false;
         }
     }
-
+    
+    public function confirm($args) {
+        if(!isset($args['name']) || !isset($args['surname']) || !isset($args['code'])) {
+            return false;
+        }
+        $code = $this->getValue(DB::table('users')->select('code')->where('login', '=', Auth::user()->login)->get(), 'code');
+        if($args['code'] != $code) {
+            return false;
+        } else {
+            try {
+                $id = DB::table('users')->where('id', Auth::user()->id)->update(array(
+                    'first_name' => $args['name'],
+                    'last_name' => $args['surname'],
+                    'state' => 'registered'
+                ));
+                return $id;
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+    
+    public function sendRegisterMail($args) {
+        $user = $args['login'];
+         
+        $data = array(
+            'link' => URL::to('signup/link') . '/' . $args['id'] . '/' . $args['code'],
+            'code' => $args['code']
+        );
+         
+        Mail::send('emails.confirm', $data, function($message) use ($user)
+        {
+            //$message->from('admin@site.com', 'Site Admin');
+            $message->to($user, $user)->subject('Welcome to My Laravel app!');
+        });
+    }
+    
+    private function getValue($object, $value) {
+        return $object[0]->$value;
+    }
 }

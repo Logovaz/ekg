@@ -13,12 +13,11 @@ return array(
 	|
 	*/
 
-	"password" => "Passwords must be at least six characters and match the confirmation.",
-
-	"user" => "We can't find a user with that e-mail address.",
-
-	"token" => "This password reset token is invalid.",
-
-	"sent" => "Password reminder sent!",
+	'password' => 'Passwords must be at least six characters and match the confirmation.',
+	'user' => 'We can\'t find a user with that e-mail address.',
+	'token' => 'This password reset token is invalid.',
+	'sent' => 'Password reminder sent!',
+    'confirmation' => 'Thank you for registering in EKG. To finish registration follow this link- :link or enter this code in confirmation window- :code',
+    'verification' => 'If you want to verify your account later you can login and enter this code whenever you want.'
 
 );
