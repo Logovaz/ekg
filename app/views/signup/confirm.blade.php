@@ -6,6 +6,16 @@
 @if($errors->first() != '')
   <div class="error-block centered">
     [% $errors->first() %]
+    <div class="close-btn" alt="[% Lang::get('locale.close') %]"></div>
+  </div>
+@endif
+@endsection
+
+@section('notifications')
+@if(Session::get('success') != null)
+  <div class="success-block centered">
+    [% Session::get('success') %]
+    <div class="close-success-btn" alt="[% Lang::get('locale.close') %]"></div>
   </div>
 @endif
 @endsection
@@ -16,9 +26,13 @@
       [% Lang::get('locale.confirm_registration') %]
     </p>
     [[% Form::open(array('action' => 'UserController@signupConfirm')) %]]
-    <div class="centered">
-      <input type="text" name="code" class="signup-input" placeholder="[% Lang::get('locale.confirmation_code') %]" autocomplete="off">
-    </div>
+    @if(Auth::user()->state == 'information')
+      <input type="hidden" name="code" value="information">
+    @else
+      <div class="centered">
+        <input type="text" name="code" class="signup-input" placeholder="[% Lang::get('locale.confirmation_code') %]" autocomplete="off">
+      </div>
+    @endif
     <div class="centered">
       <input type="text" name="name" class="signup-input" placeholder="[% Lang::get('locale.name') %]" autocomplete="off">
     </div>

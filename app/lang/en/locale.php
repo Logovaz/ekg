@@ -30,4 +30,7 @@ return array (
     'forgot_password' => 'Forgot your password?',
     'restore' => 'Restore',
     'wrong_login' => 'Wrong email or password',
+    'code_accepted' => 'Your registration code accepted',
+    'code_decline' => 'Your registration code is invalid',
+    'some_error' => 'Unexpected error happened :(',
 );

@@ -31,13 +31,24 @@ class UserController extends Controller {
     
     public function signupConfirm() {
         $rules = array(
-            'code' => 'required|numeric',
             'name' => 'required|alpha|max:24|min:2',
             'surname' => 'required|alpha|max:32|min:2'
         );
+        
+        if(Input::get('code') != 'information') {
+            $rules['code'] = 'required|numeric';
+        }
+        
         $validator = Validator::make(Input::all(), $rules);
         if($validator->passes()) {
             $user = new User();
+            if(Input::get('code') == 'information') {
+                if($user->setInformation(array('name' => Input::get('name'), 'surname' => Input::get('surname')))) {
+                    return Redirect::to('profile');
+                } else {
+                    return Redirect::to('confirm')->withErrors(Lang::get('locale.some_error'));
+                }
+            }
             if($user->confirm(array('code' => Input::get('code'), 'name' => Input::get('name'), 'surname' => Input::get('surname')))) {
                 return Redirect::to('profile');
             } else {
@@ -70,7 +81,15 @@ class UserController extends Controller {
     }
     
     public function signupLink($id, $code) {
-        return Redirect::to('confirm')->with('id', $id)->with('code', $code);
+        $user = new User();
+        if($user->registerByLink($id, $code)) {
+            if(Auth::check()) {
+                return Redirect::to('confirm')->with('success', Lang::get('locale.code_accept'));
+            } else {
+                return Redirect::to('login')->with('success', Lang::get('locale.code_accept'));
+            }
+        }
+        return Redirect::to('login')->withErrors(Lang::get('locale.code_decline'));
     }
     
     public function loginProcess() {

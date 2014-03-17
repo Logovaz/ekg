@@ -17,6 +17,7 @@
     @yield('header')
     <div class="grey-block">
       @yield('errors')
+      @yield('notifications')
       @yield('content')
     </div>
     @yield('footer')

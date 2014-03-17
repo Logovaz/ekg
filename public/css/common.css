@@ -134,6 +134,19 @@ form {
   width: 400px;
 }
 
+.success-block {
+  margin: 2px auto;
+  border: 1px #8cb82b solid;
+  background-color: #adff2f;
+  padding: 5px 10px 5px 20px;
+  text-align: center;
+  font-size: 10pt;
+  font-weight: bold;
+  color: #228b22;
+  clear: both;
+  width: 400px;
+}
+
 .header-btn {
   margin-top: 8px;
   margin-right: 6px;
@@ -143,6 +156,16 @@ form {
   cursor: pointer;
   float: right;
   background: url(../images/common/close.png) no-repeat;
+  width: 20px;
+  height: 20px;
+  margin: -1px -4px 0px 0px;
+  padding: 0px;
+}
+
+.close-success-btn {
+  cursor: pointer;
+  float: right;
+  background: url(../images/common/close-success.png) no-repeat;
   width: 20px;
   height: 20px;
   margin: -1px -4px 0px 0px;

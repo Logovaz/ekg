@@ -54,7 +54,7 @@ class User extends Eloquent implements UserInterface {
         }
         try {
             $code = rand(100000, 999999);
-            $id = DB::table('users')->insert(array(
+            $id = DB::table('users')->insertGetId(array(
                 'login' => $args['login'],
                 'password' => $args['password'],
                 'email' => $args['login'],
@@ -90,19 +90,39 @@ class User extends Eloquent implements UserInterface {
         }
     }
     
+    public function setInformation($args) {
+        try {
+            $id = DB::table('users')->where('id', Auth::user()->id)->update(array(
+                'first_name' => $args['name'],
+                'last_name' => $args['surname']
+            ));
+            return $id;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
     public function sendRegisterMail($args) {
         $user = $args['login'];
          
         $data = array(
-            'link' => URL::to('signup/link') . '/' . $args['id'] . '/' . $args['code'],
+            'link' => URL::to('signup/link') . '/' . $args['id'] . '/' . md5($args['code']),
             'code' => $args['code']
         );
          
         Mail::send('emails.confirm', $data, function($message) use ($user)
         {
-            //$message->from('admin@site.com', 'Site Admin');
             $message->to($user, $user)->subject('Welcome to My Laravel app!');
         });
+    }
+    
+    public function registerByLink($id, $hash) {
+        $code = $this->getValue(DB::table('users')->select('code')->where('id', '=', $id)->get(), 'code');
+        if(md5($code) == $hash) {
+            DB::table('users')->where('id', $id)->update(array('state' => 'information'));
+            return true;
+        }
+        return false;
     }
     
     private function getValue($object, $value) {
