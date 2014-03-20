@@ -15,6 +15,9 @@ App::before(function($request)
 {
     Blade::setEscapedContentTags('[%', '%]');
     Blade::setContentTags('[[%', '%]]');
+    
+    Acl::initialize();
+    Acl::setAccess();
 });
 
 
