@@ -56,7 +56,7 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'ekg',
-			'username'  => 'root',
+			'username'  => 'ekg',
 			'password'  => 'KFwoyf8E',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',

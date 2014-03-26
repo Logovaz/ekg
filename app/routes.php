@@ -32,3 +32,6 @@ Route::get('signup/link/{id}/{code}', 'UserController@signupLink')->where('id', 
  * Profile routes
  */
 Route::get('profile', 'UserController@profile');
+Route::post('profile/search', array('before' => 'csrf', 'uses' => 'UserController@profileSearch'));
+Route::get('profile/change', 'UserController@change');
+Route::post('profile/change/process', 'UserController@profileChangeProcess');

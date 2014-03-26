@@ -125,7 +125,12 @@ class User extends Eloquent implements UserInterface {
         return false;
     }
     
+    public function search($args) {                
+        $profile = DB::table('users')->where('login', $args['login'])->first();
+        return $profile;
+    }
+
     private function getValue($object, $value) {
         return $object[0]->$value;
-    }
+    }    
 }

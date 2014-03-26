@@ -24,6 +24,11 @@ class UserController extends Controller {
         return View::make('login.index')->with('title', Lang::get('locale.login_title'));
     }
     
+    public function change() {        
+        return View::make('profile.change')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+    }
+
+    
     public function logout() {
         Auth::logout();
         return Redirect::to('/');
@@ -107,5 +112,44 @@ class UserController extends Controller {
         } else {
             return Redirect::to('login')->withErrors($validator);
         }
+    }
+
+    public function profileSearch() {
+        
+        if(!Auth::check()) {
+            return Redirect::to('login');    
+        }
+        $rules = array(
+            'search' => 'required|email'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if($validator->passes()) {
+            $user = new User();
+            if($userprofile = $user->search(array('login' => Input::get('search')))) {                
+                return Redirect::to('profile/change')->with('userprofile', $userprofile);
+            } else {                
+                return Redirect::to('profile')->withErrors(Lang::get('locale.user_not_found'));                
+            }
+        } else {
+            return Redirect::to('profile')->withErrors($validator);
+        }
+    }
+
+    public function profileChangeProcess()
+    {
+        if(!Auth::check()) {
+            return Redirect::to('login')->with('success', Lang::get('locale.not_logged'));
+        }
+
+        $rules = array(
+            'name' => 'required|alpha|max:24|min:2',
+            'surname' => 'required|alpha|max:32|min:2'
+        );
+        $validator = Validator::make(Input::all(). $rules);
+        if($validator->passes()) {
+            $user = new User();
+            
+        }
+
     }
 }

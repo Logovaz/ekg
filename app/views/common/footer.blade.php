@@ -1,4 +1,4 @@
 @section('footer')
-<div class="header">
+<div class="header clear">
 </div>
 @endsection

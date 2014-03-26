@@ -23,8 +23,12 @@ form {
   margin-bottom: 0;
 }
 
+h2 {
+  color: #435a8e;
+}
+
 .header {
-  border: 1px #ffffff solid;
+  border: 1px #435a8e solid;
   background-color: #435a8e;
   height: 46px;
   width: inherit;
@@ -50,7 +54,7 @@ form {
 }
 
 .footer {
-  border: 1px #ffffff solid;
+  border: 1px #f0f0f0 solid;
   background-color: #435a8e;
   height: 46px;
   width: inherit;
@@ -105,12 +109,18 @@ form {
   font-family: Verdana;
 }
 
+.wrapper {
+  max-width: 90%;
+  margin: auto;  
+}
+
 .grey-block {
   padding: 5px;
   margin: 2px auto;
   border: 1px #ddd solid;
   background-color: #f0f0f0;
-  clear: both;
+  overflow: hidden;
+  clear: both;   
 }
 
 .white-block {
@@ -119,6 +129,39 @@ form {
   border: 1px #ddd solid;
   background-color: #ffffff;
   clear: both;
+}
+
+.sidebar {  
+  width: 250px;
+  min-width: 200px;
+  border: 1px #ddd solid;
+  background-color: #f0f0f0;
+  float: left;
+  overflow: hidden;
+}
+
+.sidebar a {
+  color: #435a8e;
+  font-family:Verdana;  
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+}
+
+.sidebar a:hover {
+  color: #8cb82b;
+  font-family:Verdana;  
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+}
+
+.main-block{
+  padding: 10px;
+  width: auto;  
+  border: 1px #ddd solid;
+  background-color: #ffffff;
+  margin-left: 260px;
 }
 
 .error-block {
@@ -134,6 +177,12 @@ form {
   width: 400px;
 }
 
+.error-block.extend {   
+  clear: none;
+  width: auto;
+  margin-left: 260px;
+}
+
 .success-block {
   margin: 2px auto;
   border: 1px #8cb82b solid;
@@ -145,6 +194,12 @@ form {
   color: #228b22;
   clear: both;
   width: 400px;
+}
+
+.success-block.extend {   
+  clear: none;
+  width: auto;
+  margin-left: 260px;
 }
 
 .header-btn {
@@ -268,3 +323,8 @@ form {
   margin: 0 0.5em 0 0;
   background: url(../images/common/fb-logo.png) no-repeat;
 }
+
+.clear{
+  clear: both;
+}
+
