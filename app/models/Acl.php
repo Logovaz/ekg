@@ -22,6 +22,9 @@ class Acl {
         }
         $url = Request::path();
         $rights = Config::get('acl.' . $role . '.' . $url);
+        if(is_null($rights)) {
+            $rights = Config::get('acl.' . $role . '.*');
+        }
         if(is_null($rights)) $rights = array();
         Session::flash('acl', $rights);
         return $rights;

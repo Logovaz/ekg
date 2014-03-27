@@ -6,7 +6,9 @@ return array (
     'login_title' => 'EKG :: Login',
     'signup_title' => 'EKG :: Sign up',
     'signup_confirm' => 'EKG :: Confirmation',
+    'user_search_title' => 'EKG :: Search user',
     'common_title' => 'EKG :: ',
+        
     /* Common */
     'login' => 'Login',
     'facebook_login' => 'Login with Facebook',

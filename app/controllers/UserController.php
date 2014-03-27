@@ -25,9 +25,12 @@ class UserController extends Controller {
     }
     
     public function change() {        
-        return View::make('profile.change')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+        return View::make('user.change')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
-
+    
+    public function userSearch() {
+        return View::make('user.search')->with('title', Lang::get('locale.user_search_title'));
+    }
     
     public function logout() {
         Auth::logout();
@@ -114,7 +117,7 @@ class UserController extends Controller {
         }
     }
 
-    public function profileSearch() {
+    public function userSearchProcess() {
         
         if(!Auth::check()) {
             return Redirect::to('login');    
@@ -125,17 +128,17 @@ class UserController extends Controller {
         $validator = Validator::make(Input::all(), $rules);
         if($validator->passes()) {
             $user = new User();
-            if($userprofile = $user->search(array('login' => Input::get('search')))) {                
-                return Redirect::to('profile/change')->with('userprofile', $userprofile);
+            if($userprofile = $user->search(array('login' => Input::get('search')))) {
+                return Redirect::to('user/change')->with('userprofile', $userprofile);
             } else {                
-                return Redirect::to('profile')->withErrors(Lang::get('locale.user_not_found'));                
+                return Redirect::to('user/search')->withErrors(Lang::get('locale.user_not_found'));                
             }
         } else {
-            return Redirect::to('profile')->withErrors($validator);
+            return Redirect::to('user/search')->withErrors($validator);
         }
     }
 
-    public function profileChangeProcess()
+    public function userChangeProcess()
     {
         if(!Auth::check()) {
             return Redirect::to('login')->with('success', Lang::get('locale.not_logged'));

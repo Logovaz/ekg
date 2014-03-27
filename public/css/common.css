@@ -28,7 +28,7 @@ h2 {
 }
 
 .header {
-  border: 1px #435a8e solid;
+  /* border: 1px #ffffff solid; */
   background-color: #435a8e;
   height: 46px;
   width: inherit;
@@ -54,7 +54,7 @@ h2 {
 }
 
 .footer {
-  border: 1px #f0f0f0 solid;
+  /* border: 1px #ffffff solid; */
   background-color: #435a8e;
   height: 46px;
   width: inherit;
@@ -110,7 +110,7 @@ h2 {
 }
 
 .wrapper {
-  max-width: 90%;
+  border: 1px #ffffff solid;
   margin: auto;  
 }
 
@@ -261,6 +261,7 @@ h2 {
   text-decoration:none;
   text-align:center;
   text-shadow:1px 2px 1px #689324;
+  cursor: pointer;
 }
 .green-btn:hover {
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #8cb82b), color-stop(1, #9dce2c) );

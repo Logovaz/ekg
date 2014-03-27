@@ -31,7 +31,14 @@ Route::get('signup/link/{id}/{code}', 'UserController@signupLink')->where('id', 
 /**
  * Profile routes
  */
-Route::get('profile', 'UserController@profile');
-Route::post('profile/search', array('before' => 'csrf', 'uses' => 'UserController@profileSearch'));
-Route::get('profile/change', 'UserController@change');
-Route::post('profile/change/process', 'UserController@profileChangeProcess');
+
+Route::get('profile', array('before' => 'auth', 'uses' => 'UserController@profile'));
+
+/**
+ * User routes
+ */
+Route::get('user/search', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userSearch'));
+Route::post('user/search/process', 'UserController@userSearchProcess');
+Route::get('user/change', 'UserController@change');
+Route::post('user/change/process', 'UserController@userChangeProcess');
+
