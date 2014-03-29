@@ -8,7 +8,6 @@
     Testing ACL for guest
 @endif
 </div>
-
 @endsection
 
 @include('common.skeleton')

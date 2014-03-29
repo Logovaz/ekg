@@ -17,7 +17,8 @@ return array(
 	'user' => 'We can\'t find a user with that e-mail address.',
 	'token' => 'This password reset token is invalid.',
 	'sent' => 'Password reminder sent!',
-    'confirmation' => 'Thank you for registering in EKG. To finish registration follow this link- :link or enter this code in confirmation window- :code',
+    'confirmation' => 'Thank you for registering in EKG. To finish registration follow this link- :link or enter your User ID and this code in confirmation window. User ID - :user_id , Code - :code .',
+    'confirmation_subject' => 'Welcom to ECG',
     'verification' => 'If you want to verify your account later you can login and enter this code whenever you want.'
 
 );

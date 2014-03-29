@@ -2,12 +2,13 @@
 
 return array (
     /* Titles */
-    'home_title' => 'EKG :: Home',
-    'login_title' => 'EKG :: Login',
-    'signup_title' => 'EKG :: Sign up',
-    'signup_confirm' => 'EKG :: Confirmation',
-    'user_search_title' => 'EKG :: Search user',
-    'common_title' => 'EKG :: ',
+    'home_title' => 'ECG :: Home',
+    'login_title' => 'ECG :: Login',
+    'signup_title' => 'ECG :: Sign up',
+    'signup_confirm' => 'ECG :: Confirmation',
+    'information' => 'ECG :: Information',
+    'user_search_title' => 'ECG :: Search user',
+    'common_title' => 'ECG :: ',
         
     /* Common */
     'login' => 'Login',
@@ -16,10 +17,12 @@ return array (
     'logout' => 'Logout',
     'wrong_login' => 'Wrong email or password',
     'not_logged' => 'You are not logged in',
+    'user_id' => 'User ID',
 
     'signup' => 'Sign up',
     'facebook_signup' => 'Sign up with Facebook',
     'signup_manually' => 'Sign up manually',
+    'enter_information' => 'Enter your name and surname here to finish creating your profile',
     
     'email' => 'Email',
     'enter_your_email' => 'Enter your email here...',
@@ -46,8 +49,12 @@ return array (
     'search_user' => 'Search user',    
     'user_not_found' => 'User not found',
 
-    'code_accepted' => 'Your registration code accepted',
+    'code_accepted' => 'Your code accepted. Now you can log in!',
+    'information_updated' => 'Information updated!',
     'code_decline' => 'Your registration code is invalid',
-    'some_error' => 'Unexpected error happened :('
+    'some_error' => 'Unexpected error happened :(',
+    'thank_registration' => 'Thank you for registration. We just sent you an email message with instruction how to confirm your account. Did not recieve this message?',
+    'resend_message' => 'Resend message',
+    'contact_us' => 'Contact us'
     
 );

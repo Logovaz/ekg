@@ -65,23 +65,22 @@ class User extends Eloquent implements UserInterface {
             $this->sendRegisterMail($args);
             return $id;
         } catch (Exception $e) {
+            dd($e->getMessage());
             return false;
         }
     }
     
     public function confirm($args) {
-        if(!isset($args['name']) || !isset($args['surname']) || !isset($args['code'])) {
+        if(!isset($args['code']) || !isset($args['user_id'])) {
             return false;
         }
-        $code = $this->getValue(DB::table('users')->select('code')->where('login', '=', Auth::user()->login)->get(), 'code');
+        $code = $this->getValue(DB::table('users')->select('code')->where('id', '=', $args['user_id'])->get(), 'code');
         if($args['code'] != $code) {
             return false;
         } else {
             try {
-                $id = DB::table('users')->where('id', Auth::user()->id)->update(array(
-                    'first_name' => $args['name'],
-                    'last_name' => $args['surname'],
-                    'state' => 'registered'
+                $id = DB::table('users')->where('id', $args['user_id'])->update(array(
+                    'state' => 'information'
                 ));
                 return $id;
             } catch (Exception $e) {
@@ -94,7 +93,8 @@ class User extends Eloquent implements UserInterface {
         try {
             $id = DB::table('users')->where('id', Auth::user()->id)->update(array(
                 'first_name' => $args['name'],
-                'last_name' => $args['surname']
+                'last_name' => $args['surname'],
+                'state' => 'registered'
             ));
             return $id;
         } catch (Exception $e) {
@@ -107,12 +107,12 @@ class User extends Eloquent implements UserInterface {
          
         $data = array(
             'link' => URL::to('signup/link') . '/' . $args['id'] . '/' . md5($args['code']),
+            'user_id' => $args['id'],
             'code' => $args['code']
         );
          
-        Mail::send('emails.confirm', $data, function($message) use ($user)
-        {
-            $message->to($user, $user)->subject('Welcome to My Laravel app!');
+        Mail::send('emails.confirm', $data, function($message) use ($user) {
+            $message->to($user, $user)->subject(Lang::get('reminders.confirmation_subject'));
         });
     }
     
@@ -123,6 +123,14 @@ class User extends Eloquent implements UserInterface {
             return true;
         }
         return false;
+    }
+    
+    public function checkConfirmation($login) {
+        $state = $this->getValue(DB::table('users')->select('state')->where('login', '=', $login)->get(), 'state');
+        if($state == 'confirmation') {
+            return false;
+        }
+        return true;
     }
     
     public function search($args) {                

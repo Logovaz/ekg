@@ -11,8 +11,26 @@
 |
 */
 
-App::before(function($request)
-{
+App::before(function($request) {
+    
+    $paths = array(
+        '/', 
+        'logout', 
+        'login', 
+        'login/process', 
+        'confirm/process', 
+        'information/process', 
+        'confirm', 
+        'information'
+    );
+    
+    if(!is_null(Auth::user()) && !in_array(Request::path(), $paths)) {
+        switch(Auth::user()->state) {
+            case 'confirmation': return Redirect::to('confirm'); break;
+            case 'information': return Redirect::to('information'); break;
+        }
+    }
+    
     Blade::setEscapedContentTags('[%', '%]');
     Blade::setContentTags('[[%', '%]]');
     
@@ -21,9 +39,7 @@ App::before(function($request)
 });
 
 
-App::after(function($request, $response)
-{
-    Session::forget('success');
+App::after(function($request, $response) {
 });
 
 /*
@@ -37,14 +53,11 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
+Route::filter('auth', function() {
 	if (Auth::guest()) return Redirect::guest('login');
 });
 
-
-Route::filter('auth.basic', function()
-{
+Route::filter('auth.basic', function() {
 	return Auth::basic();
 });
 
@@ -59,8 +72,7 @@ Route::filter('auth.basic', function()
 |
 */
 
-Route::filter('guest', function()
-{
+Route::filter('guest', function() {
 	if (Auth::check()) return Redirect::to('/');
 });
 
@@ -75,10 +87,8 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
+Route::filter('csrf', function() {
+	if (Session::token() != Input::get('_token')) {
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });

@@ -23,10 +23,17 @@ Route::post('login/process', array('before' => 'csrf', 'uses' => 'UserController
  * Signup routes
  */
 Route::get('signup', 'UserController@signup');
+Route::get('confirm', 'UserController@confirm');
 Route::post('signup/process', array('before' => 'csrf', 'uses' => 'UserController@signupProcess'));
-Route::get('confirm', array('before' => 'auth', 'uses' => 'UserController@confirm'));
-Route::post('confirm/process', array('before' => 'csrf', 'uses' => 'UserController@signupConfirm'));
-Route::get('signup/link/{id}/{code}', 'UserController@signupLink')->where('id', '[0-9]+')->where('code', '[0-9a-z]+');
+Route::post('confirm/process', array('before' => 'csrf', 'uses' => 'UserController@confirmProcess'));
+Route::get('signup/link/{id}/{code}', 'UserController@confirmLink')->where('id', '[0-9]+')->where('code', '[0-9a-z]+');
+
+/**
+ * Information routes
+ */
+
+Route::get('information', array('before' => 'auth', 'uses' => 'UserController@information'));
+Route::post('information/process', array('before' => 'auth', 'uses' => 'UserController@informationProcess'));
 
 /**
  * Profile routes

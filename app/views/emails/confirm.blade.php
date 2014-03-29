@@ -5,7 +5,7 @@
   </head>
   <body>
     <div>
-      [% Lang::get('reminders.confirmation', array('link' => $link, 'code' => $code)) %]
+      [% Lang::get('reminders.confirmation', array('link' => $link, 'code' => $code, 'user_id' => $user_id)) %]
     </div>
     <div>
       [% Lang::get('reminders.verification') %]
