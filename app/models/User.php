@@ -126,11 +126,15 @@ class User extends Eloquent implements UserInterface {
     }
     
     public function checkConfirmation($login) {
-        $state = $this->getValue(DB::table('users')->select('state')->where('login', '=', $login)->get(), 'state');
-        if($state == 'confirmation') {
-            return false;
+        try {
+            $state = $this->getValue(DB::table('users')->select('state')->where('login', '=', $login)->get(), 'state');
+            if($state == 'confirmation') {
+                return 'confirmation';
+            }
+            return 'accepted';
+        } catch(Exception $e) {
+            return 'empty';
         }
-        return true;
     }
     
     public function search($args) {                

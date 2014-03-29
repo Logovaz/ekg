@@ -1,5 +1,8 @@
+@include('common.title')
 @include('common.header')
 @include('common.footer')
+@include('common.errors')
+@include('common.notifications')
 
 <html>
   <head>    

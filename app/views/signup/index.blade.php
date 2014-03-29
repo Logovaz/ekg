@@ -1,16 +1,3 @@
-@section('title')
-[% $title %]
-@endsection
-
-@section('errors')
-@if($errors->first() != '')
-  <div class="error-block centered">
-    [% $errors->first() %]
-    <div class="close-btn" alt="[% Lang::get('locale.close') %]"></div>
-  </div>
-@endif
-@endsection
-
 @section('content')
   <div class="white-block centered signup">
     <a href="[% URL::to('fbsignup') %]" class="fb-btn centered">[% Lang::get('locale.facebook_signup') %]</a>

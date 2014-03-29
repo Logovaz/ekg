@@ -1,7 +1,3 @@
-@section('title')
-[% $title %]
-@endsection
-
 @section('content')
 <div>
 @if(Acl::has('additional_button'))

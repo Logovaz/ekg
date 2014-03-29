@@ -1,25 +1,3 @@
-@section('title')
-[% $title %]
-@endsection
-
-@section('errors')
-@if($errors->first() != '')
-  <div class="error-block centered">
-    [% $errors->first() %]
-    <div class="close-btn" alt="[% Lang::get('locale.close') %]"></div>
-  </div>
-@endif
-@endsection
-
-@section('notifications')
-@if(Session::get('success') != null)
-  <div class="success-block centered">
-    [% Session::get('success') %]
-    <div class="close-success-btn" alt="[% Lang::get('locale.close') %]"></div>
-  </div>
-@endif
-@endsection
-
 @section('content')
   <div class="white-block centered signup">
     <p class="notification">

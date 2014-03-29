@@ -107,9 +107,12 @@ class UserController extends Controller {
         $validator = Validator::make(Input::all(), $rules);
         
         $user = new User();
-        if(!$user->checkConfirmation(Input::get('login'))) {
-            return Redirect::to('confirm');
+        switch($user->checkConfirmation(Input::get('login'))) {
+            case 'confirmation': return Redirect::to('confirm'); break;
+            case 'accepted': break;
+            case 'empty': return Redirect::to('login')->withErrors(Lang::get('locale.wrong_login')); break;
         }
+        
         if($validator->passes()) {
             if(Auth::attempt(array('login' => Input::get('login'), 'password' => Input::get('password')))) {
                 return Redirect::to('profile');
@@ -122,7 +125,6 @@ class UserController extends Controller {
     }
 
     public function userSearchProcess() {
-        
         if(!Auth::check()) {
             return Redirect::to('login');    
         }
