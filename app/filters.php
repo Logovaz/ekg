@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Redirect;
 /*
 |--------------------------------------------------------------------------
 | Application & Route Filters
@@ -59,6 +60,33 @@ Route::filter('auth', function() {
 
 Route::filter('auth.basic', function() {
 	return Auth::basic();
+});
+
+Route::filter('doctor', function() {
+   if(!Auth::check()) {
+       return Redirect::to('login');
+   }
+   if(Auth::user()->role != 'doctor') {
+       return Redirect::to('/');
+   }
+});
+
+Route::filter('admin', function() {
+    if(!Auth::check()) {
+        return Redirect::to('login');
+    }
+    if(Auth::user()->role != 'admin') {
+        return Redirect::to('/');
+    }
+});
+
+Route::filter('user', function() {
+    if(!Auth::check()) {
+        return Redirect::to('login');
+    }
+    if(Auth::user()->role != 'user') {
+        return Redirect::to('/');
+    }
 });
 
 /*

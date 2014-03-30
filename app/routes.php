@@ -49,3 +49,14 @@ Route::post('user/search/process', 'UserController@userSearchProcess');
 Route::get('user/change', 'UserController@change');
 Route::post('user/change/process', 'UserController@userChangeProcess');
 
+/**
+ * Ajax routes
+ */
+
+Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
+
+/**
+ * Common routes
+ */
+
+Route::get('ecg', 'EcgController@example');

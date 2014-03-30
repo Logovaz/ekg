@@ -131,6 +131,15 @@ h2 {
   clear: both;
 }
 
+.menu-block {
+  /* padding: 5px; */
+  margin: 2px auto;
+  border: 1px #ddd solid;
+  background-color: #ffffff;
+  clear: both;
+  text-align: center;
+}
+
 .sidebar {  
   width: 250px;
   min-width: 200px;
@@ -225,6 +234,10 @@ h2 {
   height: 20px;
   margin: -1px -4px 0px 0px;
   padding: 0px;
+}
+
+.menu-btn {
+  margin: 3px;
 }
 
 .green-btn {
@@ -327,5 +340,20 @@ h2 {
 
 .clear{
   clear: both;
+}
+
+.plot {
+  padding: 10px;
+  width: 800px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.control-block {
+  padding: 10px;
+  width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10px;
 }
 

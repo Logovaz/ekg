@@ -4,5 +4,4 @@
 </div>
 @endsection 
 
-@include('common.sidebar')
-@include('common.lskeleton')
+@include('common.skeleton')

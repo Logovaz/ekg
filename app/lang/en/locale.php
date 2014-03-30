@@ -8,6 +8,7 @@ return array (
     'signup_confirm' => 'ECG :: Confirmation',
     'information' => 'ECG :: Information',
     'user_search_title' => 'ECG :: Search user',
+    'example_title' => 'ECG :: Example',
     'common_title' => 'ECG :: ',
         
     /* Common */
@@ -18,6 +19,13 @@ return array (
     'wrong_login' => 'Wrong email or password',
     'not_logged' => 'You are not logged in',
     'user_id' => 'User ID',
+    'home' => 'Home',
+    'ecg' => 'ECG',
+    'contacts' => 'Contacts',
+    'my_ecg' => 'My ECG',
+    'messages' => 'Messages',
+    'patients' => 'Patients',
+    'control' => 'Control',
 
     'signup' => 'Sign up',
     'facebook_signup' => 'Sign up with Facebook',
