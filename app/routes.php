@@ -40,13 +40,17 @@ Route::post('information/process', array('before' => 'auth', 'uses' => 'UserCont
  */
 
 Route::get('profile', array('before' => 'auth', 'uses' => 'UserController@profile'));
+Route::get('control', array('before' => 'auth', 'uses' => 'UserController@control'));
 
 /**
  * User routes
  */
 Route::get('user/search', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userSearch'));
 Route::post('user/search/process', 'UserController@userSearchProcess');
-Route::get('user/change', 'UserController@change');
+
+Route::get('user/{id}', 'UserController@userView')->where('id', '[0-9]+');
+
+Route::get('user/change/{id}', 'UserController@change')->where('id', '[0-9]+');
 Route::post('user/change/process', 'UserController@userChangeProcess');
 
 /**

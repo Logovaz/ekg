@@ -26,5 +26,5 @@
 </div>
 @endsection 
 
-@include('common.sidebar')
+@include('control.sidebar')
 @include('common.skeleton')

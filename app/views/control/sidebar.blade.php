@@ -1,6 +1,12 @@
 @section('sidebar')
 <div class="sidebar">
 <ul>
+@if(Acl::has('search_user'))
+    <li>
+      <a href="[% URL::to('user/search') %]">[% Lang::get('locale.search_user') %]</a>
+    </li>
+@endif
+
   <li>
     <a href="[% URL::to('profile') %]">User</a>
   </li>
@@ -19,11 +25,6 @@
   <li>
     <a href="[% URL::to('addnews') %]">News</a>
   </li>
-  @if(Acl::has('search_user'))
-    <li>
-      <a href="[% URL::to('user/search') %]">[% Lang::get('locale.search_user') %]</a>
-    </li>
-  @endif
 </ul>
 </div>
 @endsection

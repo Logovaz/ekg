@@ -22,11 +22,15 @@ class UserController extends Controller {
         return View::make('profile.index')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
     
+    public function control() {
+        return View::make('control.index')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+    }
+
     public function login() {
         return View::make('login.index')->with('title', Lang::get('locale.login_title'));
     }
     
-    public function change() {        
+    public function change($id) {        
         return View::make('user.change')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
     
@@ -125,17 +129,14 @@ class UserController extends Controller {
     }
 
     public function userSearchProcess() {
-        if(!Auth::check()) {
-            return Redirect::to('login');    
-        }
         $rules = array(
             'search' => 'required|email'
         );
         $validator = Validator::make(Input::all(), $rules);
         if($validator->passes()) {
             $user = new User();
-            if($userprofile = $user->search(array('login' => Input::get('search')))) {
-                return Redirect::to('user/change')->with('userprofile', $userprofile);
+            if($id = $user->exist(array('login' => Input::get('search')))) {
+                return Redirect::to('user/'.$id);
             } else {                
                 return Redirect::to('user/search')->withErrors(Lang::get('locale.user_not_found'));                
             }
@@ -144,11 +145,20 @@ class UserController extends Controller {
         }
     }
 
-    public function userChangeProcess()
+    public function userView($id) {
+        $user = new User();
+        $profile = $user->getProfile($id);
+        return View::make('user.view', array('profile' => $profile))->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+    }
+
+    public function userEdit($id) {
+        $user = new User();
+        $profile = $user->getProfile($id);
+        return View::make('user.view', $profile)->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+    }
+
+    public function userEditProcess()
     {
-        if(!Auth::check()) {
-            return Redirect::to('login')->with('success', Lang::get('locale.not_logged'));
-        }
 
         $rules = array(
             'name' => 'required|alpha|max:24|min:2',

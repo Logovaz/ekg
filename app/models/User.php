@@ -137,9 +137,20 @@ class User extends Eloquent implements UserInterface {
         }
     }
     
-    public function search($args) {                
-        $profile = DB::table('users')->where('login', $args['login'])->first();
-        return $profile;
+    public function getProfile($id) {                
+        try {
+            $profile = DB::table('users')->where('id', $id)->first();            
+            return $profile;
+        } catch(Exception $e) {
+            return false;
+        }
+        
+        
+    }
+
+    public function exist($args) {
+        $res = $this->getValue(DB::table('users')->select('id')->where('login', '=', $args['login'])->get(), 'id');        
+        return $res; 
     }
 
     private function getValue($object, $value) {
