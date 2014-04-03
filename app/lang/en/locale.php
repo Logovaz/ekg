@@ -9,6 +9,7 @@ return array (
     'information' => 'ECG :: Information',
     'user_search_title' => 'ECG :: Search user',
     'example_title' => 'ECG :: Example',
+    'messages_title' => 'ECG :: Messages',
     'common_title' => 'ECG :: ',
         
     /* Common */
