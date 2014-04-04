@@ -38,6 +38,10 @@ class UserController extends Controller {
         return View::make('user.search')->with('title', Lang::get('locale.user_search_title'));
     }
     
+    public function messages() {
+        return View::make('messages.index')->with('title', Lang::get('locale.messages'));
+    }
+    
     public function logout() {
         Auth::logout();
         return Redirect::to('/');

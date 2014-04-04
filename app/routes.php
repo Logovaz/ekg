@@ -64,3 +64,4 @@ Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
  */
 
 Route::get('ecg', 'EcgController@example');
+Route::get('messages', 'UserController@messages');
