@@ -19,6 +19,18 @@
         </th>
       </tr>
       <tr>
+        <td class="label">First name</td>
+        <td class="info">[% $profile->first_name %]</td>
+      </tr>
+      <tr>
+        <td class="label">Middle name</td>
+        <td class="info">[% $profile->middle_name %]</td>
+      </tr>
+      <tr>
+        <td class="label">Last name</td>
+        <td class="info">[% $profile->last_name %]</td>
+      </tr>
+      <tr>
         <td class="label">Email</td>
         <td class="info">[% $profile->email %]</td>
       </tr>
@@ -29,6 +41,18 @@
       <tr>
         <th colspan="2" align="left">Profile properties
         </th class="info">
+      </tr>
+      <tr>
+        <td class="label">Login</td>
+        <td class="info">[% $profile->login %]</td>
+      </tr>
+      <tr>
+        <td class="label">State</td>
+        <td class="info">[% $profile->state %]</td>
+      </tr>
+      <tr>
+        <td class="label">Registered</td>
+        <td class="info">[% $profile->registered %]</td>
       </tr>
       <tr>
         <td class="label">Language</td>
