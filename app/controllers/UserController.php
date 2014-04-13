@@ -3,7 +3,8 @@
 class UserController extends Controller {
     
     public function home() {
-        return View::make('home.index')->with('title', Lang::get('locale.home_title'));
+        $user = new User();
+        return View::make('home.index')->with('title', Lang::get('locale.home_title'))->with('news', $user->getNews());
     }
     
     public function signup() {
@@ -30,12 +31,21 @@ class UserController extends Controller {
         return View::make('user.change')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
     
+    public function patients() {
+        $user = new User();
+        return View::make('patients.index')->with('title', Lang::get('locale.patients_title'))->with('patients', $user->getPatients());
+    }
+    
     public function userSearch() {
         return View::make('user.search')->with('title', Lang::get('locale.user_search_title'));
     }
     
     public function messages() {
-        return View::make('messages.index')->with('title', Lang::get('locale.messages'));
+        $user = new User();
+        return View::make('messages.index')
+                ->with('title', Lang::get('locale.messages_title'))
+                ->with('messages', $user->getMessages())
+                ->with('users', $user->getPatients());
     }
     
     public function logout() {

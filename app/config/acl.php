@@ -4,6 +4,10 @@ return array(
     'user' => array(
         '*' => array(
             'messages'
+        ),
+        'messages' => array(
+            'user',
+            'messages'
         )
     ),
     'admin' => array(
@@ -15,6 +19,10 @@ return array(
     'doctor' => array(
         '*' => array(
             'patients',
+            'messages'
+        ),
+        'messages' => array(
+            'doctor',
             'messages'
         )
     ),

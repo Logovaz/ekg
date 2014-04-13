@@ -65,7 +65,6 @@ class User extends Eloquent implements UserInterface {
             $this->sendRegisterMail($args);
             return $id;
         } catch (Exception $e) {
-            dd($e->getMessage());
             return false;
         }
     }
@@ -134,6 +133,53 @@ class User extends Eloquent implements UserInterface {
             return 'accepted';
         } catch(Exception $e) {
             return 'empty';
+        }
+    }
+    
+    public function getPatients() {
+        try {
+            $patients = DB::table('users')->join('relations', 'users.id', '=', 'relations.user_id')
+                                          ->select('*')->where($directed, '=', Auth::user()->id)
+                                          ->where('state', '=', 'registered')->get();
+            if(empty($patients)) {
+                return false;
+            }
+            return $patients;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
+    public function getMessages() {
+        if(Auth::user()->role == 'user') {
+            $directed = 'to';
+        } elseif (Auth::user()->role == 'doctor') {
+            $directed = 'from';
+        }
+        try {
+            $messages = DB::table('messages')->select('*')->where($directed, '=', Auth::user()->id)->get();
+            if(empty($messages)) {
+                return false;
+            }
+            return $messages;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
+    public function getNews() {
+        try {
+            $news = DB::table('news')->select('*')->where('visibility', '=', 'visible')->get();
+            if(empty($news)) {
+               return false; 
+            }
+            $result = array();
+            foreach($news as $item) {
+                array_push($result, array('date' => $item->timestamp, 'title' => $item->title, 'text' => substr($item->text, 0, 500) . '...'));
+            }
+            return $result;
+        } catch (Exception $e) {
+            return false;
         }
     }
     

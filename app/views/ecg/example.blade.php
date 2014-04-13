@@ -12,8 +12,8 @@
 <div class="plot" id="plot"></div>
 <div class="white-block control-block">
   <a id="reset-btn" href="#" class="green-btn">Reset Zoom</a>
-  <a id="next-btn" href="#" class="green-btn">Next</a>
   <a id="prev-btn" href="#" class="green-btn">Previous</a>
+  <a id="next-btn" href="#" class="green-btn">Next</a>
 </div>
 @endsection
 
