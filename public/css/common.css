@@ -404,3 +404,18 @@ td.info {
   float: right;
   overflow: hidden;
 }
+.messages-block {
+  width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 3px;
+}
+
+.news-block {
+  width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+  padding: 3px;
+  font-size: 10pt;
+}
+

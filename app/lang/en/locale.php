@@ -10,6 +10,7 @@ return array (
     'user_search_title' => 'ECG :: Search user',
     'example_title' => 'ECG :: Example',
     'messages_title' => 'ECG :: Messages',
+    'patients_title' => 'ECG :: Patients',
     'common_title' => 'ECG :: ',
         
     /* Common */
@@ -27,6 +28,8 @@ return array (
     'messages' => 'Messages',
     'patients' => 'Patients',
     'control' => 'Control',
+    'no_messages' => 'There are no messages...',
+    'no_patients' => 'You have no patients...',
 
     'signup' => 'Sign up',
     'facebook_signup' => 'Sign up with Facebook',
@@ -64,6 +67,8 @@ return array (
     'some_error' => 'Unexpected error happened :(',
     'thank_registration' => 'Thank you for registration. We just sent you an email message with instruction how to confirm your account. Did not recieve this message?',
     'resend_message' => 'Resend message',
-    'contact_us' => 'Contact us'
+    'contact_us' => 'Contact us',
+    'no_patients' => 'You have no patients',
+    'no_news' => 'There are no news'
     
 );
