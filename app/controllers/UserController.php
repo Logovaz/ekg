@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 class UserController extends Controller {
     
     public function home() {
@@ -73,6 +76,42 @@ class UserController extends Controller {
             }
         } else {
             return Redirect::to('signup')->withErrors($validator);
+        }
+    }
+    
+    public function sendMessage() {
+        $user = new User();
+        if($user->sendMessage(Input::all())) {
+            return Redirect::to('messages')->with('success', Lang::get('locale.message_sent'));
+        } else {
+            return Redirect::to('messages')->withErrors(Lang::get('locale.message_fail'));
+        }
+    }
+    
+    public function patientsSearch() {
+        $rules = array(
+          'search' => 'required|email'  
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if($validator->passes()) {
+            $user = new User();
+            $result = $user->searchNotPatient(array('login' => Input::get('search')));
+            if(is_null($result) || !$result) {
+                return Redirect::to('patients')->withErrors(Lang::get('locale.no_results'));
+            } else {
+                return Redirect::to('patients')->with('search_result', $result);
+            }
+        } else {
+            return Redirect::to('patients')->withErrors($validator);
+        }
+    }
+    
+    public function patientAdd() {
+        $user = new User();
+        if($user->addPatient(Input::get('user_id'))) {
+            return Redirect::to('patients')->with('success', Lang::get('locale.user_add_notify'));
+        } else {
+            return Redirect::to('patients')->withErrors(Lang::get('locale.request_fail'));
         }
     }
     

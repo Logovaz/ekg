@@ -1,6 +1,6 @@
 @section('content')
 @if(!$news)
-  <div class="white-block news-block">
+  <div class="white-block no-data">
     [% Lang::get('locale.no_news') %]
   </div>
 @else

@@ -47,9 +47,7 @@ Route::get('control', array('before' => 'auth', 'uses' => 'UserController@contro
  */
 Route::get('user/search', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userSearch'));
 Route::post('user/search/process', 'UserController@userSearchProcess');
-
 Route::get('user/{id}', 'UserController@userView')->where('id', '[0-9]+');
-
 Route::get('user/change/{id}', 'UserController@change')->where('id', '[0-9]+');
 Route::post('user/change/process', 'UserController@userChangeProcess');
 
@@ -66,4 +64,8 @@ Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
 Route::get('ecg', 'EcgController@example');
 
 Route::get('messages', 'UserController@messages');
+Route::post('messages/send', array('before' => 'auth', 'uses' => 'UserController@sendMessage'));
+
 Route::get('patients', array('before' => array('auth', 'doctor'), 'uses' => 'UserController@patients'));
+Route::post('patients/search', array('before' => array('auth', 'doctor'), 'uses' => 'UserController@patientsSearch'));
+Route::post('patients/add', array('before' => array('auth', 'doctor'), 'uses' => 'UserController@patientAdd'));

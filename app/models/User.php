@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Auth\UserInterface;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Eloquent implements UserInterface {
 
@@ -147,7 +148,7 @@ class User extends Eloquent implements UserInterface {
     public function getPatients() {
         try {
             $patients = DB::table('users')->join('relations', 'users.id', '=', 'relations.user_id')
-                                          ->select('*')->where($directed, '=', Auth::user()->id)
+                                          ->select('*')->where('doctor_id', '=', Auth::user()->id)
                                           ->where('state', '=', 'registered')->get();
             if(empty($patients)) {
                 return false;
@@ -165,11 +166,25 @@ class User extends Eloquent implements UserInterface {
             $directed = 'from';
         }
         try {
-            $messages = DB::table('messages')->select('*')->where($directed, '=', Auth::user()->id)->get();
+            $messages = DB::table('messages')->where($directed, '=', Auth::user()->id)->get();
             if(empty($messages)) {
                 return false;
             }
             return $messages;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
+    public function sendMessage($args) {
+        try {
+            DB::table('messages')->insert(array(
+                'from' => Auth::user()->id,
+                'to' => $args['user_id'],
+                'text' => $args['message'],
+                'status' => 'new'
+            ));
+            return true;
         } catch (Exception $e) {
             return false;
         }
@@ -191,17 +206,57 @@ class User extends Eloquent implements UserInterface {
         }
     }
     
-    public function search($args) {                
-        $profile = DB::table('users')->where('login', $args['login'])->first();
-        return $profile;
+    public function search($args) {
+        if($args['login'] == Auth::user()->login) return false;
+        try {
+            $profile = DB::table('users')->where('login', $args['login'])->first();
+            if($profile) {
+                return $profile;
+            } else {
+                return false;
+            }
+        } catch(Exception $e) {
+            return false;
+        }
     }
-
+    
+    public function searchNotPatient($args) {
+        if($args['login'] == Auth::user()->login) return false;
+        try {
+            $profile = DB::table('users')->where('login', $args['login'])->where('state', '=', 'registered')->first();
+            if($profile) {
+                $check = DB::table('relations')->where('user_id', $profile->id)->where('doctor_id', Auth::user()->id)->first();
+                if($check) return false;
+                return $profile;
+            } else {
+                return false;
+            }
+        } catch(Exception $e) {
+            return false;
+        }
+    }
+    
     public function exist($args) {
         $res = $this->getValue(DB::table('users')->select('id')->where('login', '=', $args['login'])->get(), 'id');        
         return $res; 
     }
+    
+    public function addPatient($id) {
+        try {
+            $res = DB::table('relations')->insertGetId(array(
+                'doctor_id' => Auth::user()->id,
+                'user_id' => $id,
+                'status' => 'waiting'
+            ));
+            if($res) return true;
+            return false;
+        } catch (Exception $e) {
+            return false;
+        }
+        
+    }
 
     private function getValue($object, $value) {
         return $object[0]->$value;
-    }    
+    }
 }

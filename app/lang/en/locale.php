@@ -69,6 +69,15 @@ return array (
     'resend_message' => 'Resend message',
     'contact_us' => 'Contact us',
     'no_patients' => 'You have no patients',
-    'no_news' => 'There are no news'
+    'no_news' => 'There are no news',
+    'no_results' => 'There are no users found',
+    'user_found' => 'User found',
+    'user_add_notify' => 'Request sent succesfully',
+    'request_fail' => 'Request failed',
+    'your_patients' => 'Your patients',
+    'waiting_status' => 'Confirmation waiting...',
+    'send' => 'Send',
+    'message_sent' => 'Message sent',
+    'message_fail' => 'Message sending fail',
     
 );
