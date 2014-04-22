@@ -77,7 +77,12 @@ return array (
     'your_patients' => 'Your patients',
     'waiting_status' => 'Confirmation waiting...',
     'send' => 'Send',
+    'clear' => 'Clear',
+    'cancel' => 'Cancel',
     'message_sent' => 'Message sent',
     'message_fail' => 'Message sending fail',
+    'add_patient' => 'Add patient',
+    'send_message' => 'Send message',
+    'message_to' => 'Message to '
     
 );

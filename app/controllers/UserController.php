@@ -88,6 +88,15 @@ class UserController extends Controller {
         }
     }
     
+    public function sendAjaxMessage() {
+        $user = new User();
+        if($user->sendMessage(Input::all())) {
+            return Response::json(Lang::get('locale.message_sent'));
+        } else {
+            return Response::json(Lang::get('locale.message_fail'));
+        }
+    }
+    
     public function patientsSearch() {
         $rules = array(
           'search' => 'required|email'  

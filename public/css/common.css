@@ -73,6 +73,10 @@ td.info {
   text-align: right;
 }
 
+.hidden {
+  display: none;
+}
+
 .header-menu {
   display: inline-block;
   margin-right: 5px;
@@ -82,12 +86,14 @@ td.info {
   color: #ffffff;
   font-family: Verdana;
   text-decoration: none;
+  font-weight: bold;
+  font-size: 10pt;
 }
 
 .header-menu a:visited {
   color: #ffffff;
   font-family: Verdana;
-  font-size: 12pt;
+  font-size: 10pt;
   text-decoration: none;
 }
 
@@ -157,7 +163,7 @@ td.info {
 }
 
 .grey-block {
-  padding: 5px;
+  padding: 7px;
   margin: 2px auto;
   border: 1px #ddd solid;
   background-color: #f0f0f0;
@@ -266,6 +272,16 @@ td.info {
   height: 20px;
   margin: -1px -4px 0px 0px;
   padding: 0px;
+}
+
+.time-btn {
+  cursor: pointer;
+  background: url(../images/common/time.png) no-repeat;
+  width: 20px;
+  height: 20px;
+  margin: 0px 0px 0px 10px;
+  padding-left: 20px;
+  padding-bottom: 5px;
 }
 
 .add-btn {
@@ -470,4 +486,104 @@ td.info {
 .search-btn {
   line-height: 20px;
   height: 28px;
+}
+
+.message-area {
+  resize: none;
+  width: 320px;
+  height: 180px;
+}
+
+/**
+ * JQuery UI owerwrite
+ */
+
+.ui-tooltip {
+  font-size: 8pt !important;
+  color: #435A8E !important;
+  border-radius: 0px !important;
+  border: 2px solid white !important;
+  padding: 5px !important;
+}
+
+.ui-dialog-titlebar {
+  border-radius: 0px !important;
+  background: #435A8E !important;
+  border: 0px !important;
+  cursor: pointer !important;
+}
+
+.ui-dialog-title {
+  color: #ffffff !important;
+  font-size: 8pt !important;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+  border-bottom-right-radius: 0px !important;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+  border-bottom-left-radius: 0px !important;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+  border-top-right-radius: 0px !important;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+  border-top-left-radius: 0px !important;
+}
+
+.ui-button-text-only {
+  -moz-box-shadow:inset 0px 1px 0px 0px #c1ed9c !important;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #c1ed9c !important;
+  box-shadow:inset 0px 1px 0px 0px #c1ed9c;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9dce2c), color-stop(1, #8cb82b) ) !important;
+  background:-moz-linear-gradient( center top, #9dce2c 5%, #8cb82b 100% ) !important;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#9dce2c', endColorstr='#8cb82b') !important;
+  background-color:#9dce2c !important;
+  -webkit-border-top-left-radius:0px !important;
+  -moz-border-radius-topleft:0px !important;
+  border-top-left-radius:0px !important;
+  -webkit-border-top-right-radius:0px !important;
+  -moz-border-radius-topright:0px !important;
+  border-top-right-radius:0px !important;
+  -webkit-border-bottom-right-radius:0px !important;
+  -moz-border-radius-bottomright:0px !important;
+  border-bottom-right-radius:0px !important;
+  -webkit-border-bottom-left-radius:0px !important;
+  -moz-border-radius-bottomleft:0px !important;
+  border-bottom-left-radius:0px !important;
+  text-indent:0px !important;
+  border: 1px solid #83c41a !important;
+  display:inline-block !important;
+  color:#ffffff !important;
+  font-family:Verdana !important;
+  font-size:13px !important;
+  font-weight:bold !important;
+  font-style:normal !important;
+  height:30px !important;
+  line-height:24px !important;
+  width:100px !important;
+  text-decoration:none !important;
+  text-align:center !important;
+  text-shadow:1px 2px 1px #689324 !important;
+  cursor: pointer !important;
+}
+
+.ui-button-text-only:hover {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #8cb82b), color-stop(1, #9dce2c) ) !important;
+  background:-moz-linear-gradient( center top, #8cb82b 5%, #9dce2c 100% ) !important;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8cb82b', endColorstr='#9dce2c') !important;
+  background-color:#8cb82b !important;
+}
+
+.ui-button-text-only:active {
+  position:relative !important;
+  top:1px !important;
+}
+
+.ui-widget textarea {
+  font-size: 8pt !important;
+  font-family: Verdana !important;
 }

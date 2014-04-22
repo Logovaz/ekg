@@ -23,7 +23,8 @@ return array(
         ),
         'messages' => array(
             'doctor',
-            'messages'
+            'messages',
+            'patients'
         )
     ),
     'guest' => array(

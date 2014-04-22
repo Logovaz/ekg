@@ -56,6 +56,7 @@ Route::post('user/change/process', 'UserController@userChangeProcess');
  */
 
 Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
+Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
 
 /**
  * Common routes
