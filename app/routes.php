@@ -50,6 +50,7 @@ Route::post('user/search/process', 'UserController@userSearchProcess');
 Route::get('user/{id}', 'UserController@userView')->where('id', '[0-9]+');
 Route::get('user/change/{id}', 'UserController@change')->where('id', '[0-9]+');
 Route::post('user/change/process', 'UserController@userChangeProcess');
+Route::get('article/{id}', 'UserController@article')->where('id', '[0-9]+');
 
 /**
  * Ajax routes

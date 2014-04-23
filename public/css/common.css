@@ -19,6 +19,10 @@ input {
   width: 200px;
 }
 
+.blue {
+  color: #435a8e;
+}
+
 form {
   margin-bottom: 0;
 }

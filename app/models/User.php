@@ -198,12 +198,16 @@ class User extends Eloquent implements UserInterface {
             }
             $result = array();
             foreach($news as $item) {
-                array_push($result, array('date' => $item->timestamp, 'title' => $item->title, 'text' => substr($item->text, 0, 500) . '...'));
+                array_push($result, array('id' => $item->id, 'date' => $item->timestamp, 'title' => $item->title, 'text' => substr($item->text, 0, 500) . '...'));
             }
             return $result;
         } catch (Exception $e) {
             return false;
         }
+    }
+    
+    public function getArticle($id) {
+        return DB::table('news')->where('id', '=', $id)->first();
     }
     
     public function search($args) {

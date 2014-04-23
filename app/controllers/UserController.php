@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
 class UserController extends Controller {
     
     public function home() {
@@ -45,6 +42,12 @@ class UserController extends Controller {
     
     public function userSearch() {
         return View::make('user.search')->with('title', Lang::get('locale.user_search_title'));
+    }
+    
+    public function article($id) {
+        $user = new User();
+        $article = $user->getArticle($id);
+        return View::make('article.index')->with('title', Lang::get('locale.common_title') . $article->title)->with('article', $article);
     }
     
     public function messages() {

@@ -6,7 +6,7 @@
 @else
   @foreach($news as $item)
   <div class="white-block news-block">
-    <h3>[% $item['title'] %]</h3>
+    <h3><a class="undecorated blue" href="[% URL::to('/') %]/article/[% $item['id'] %]">[% $item['title'] %]</a></h3>
     <p>
       [% $item['text'] %]
     </p>
