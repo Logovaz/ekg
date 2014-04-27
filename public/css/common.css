@@ -591,3 +591,7 @@ td.info {
   font-size: 8pt !important;
   font-family: Verdana !important;
 }
+
+.jqplot-series-shadowCanvas {
+  background-image: url(../images/common/mm.png);
+}

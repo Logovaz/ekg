@@ -26,6 +26,9 @@ var Plot = function() {
             show: true,
             sizeAdjust: 10
           },
+          grid: {
+            drawGridlines: false
+          }
         });
         self.plot.resetZoom();
       }

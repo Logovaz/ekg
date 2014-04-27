@@ -20,7 +20,12 @@ class UserController extends Controller {
     }
     
     public function profile() {
-        return View::make('profile.index')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+        $ecg = new Ecg();
+        $list = $ecg->getGraphs(Auth::user()->id);
+        return View::make('profile.index')
+                ->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name)
+                ->with('graphs', $list)
+                ->with('user_id', Auth::user()->id);
     }
     
     public function control() {

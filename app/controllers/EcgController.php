@@ -11,4 +11,8 @@ class EcgController extends Controller {
         $ecg = new Ecg();
         return Response::json($ecg->getExampleData(Input::get('step')));
     }
+    
+    public function graph() {
+        return View::make('graph.index')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+    }
 }

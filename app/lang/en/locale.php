@@ -83,6 +83,7 @@ return array (
     'message_fail' => 'Message sending fail',
     'add_patient' => 'Add patient',
     'send_message' => 'Send message',
-    'message_to' => 'Message to '
+    'message_to' => 'Message to ',
+    'no_graphs' => 'You have no ECG graphs'
     
 );

@@ -22,4 +22,16 @@ class Ecg extends Eloquent {
         return $result;
     }
     
+    public function getGraphs($userId) {
+        try {
+            $list = DB::table('graphs')->where('user_id', '=', $userId)->get();
+            if(empty($list)) {
+                return false;
+            }
+            return $list;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
 }
