@@ -3,8 +3,8 @@
 class Ecg extends Eloquent {
     
     public function getExampleData($step) {
-        $from = $step * 10 - 10;
-        $to = $step * 10;
+        $from = $step * 20 - 20;
+        $to = $step * 20;
         
         $data = DB::table('ecg_example')->select('*')->whereBetween('id', array($from, $to))->get();
         $result = array();

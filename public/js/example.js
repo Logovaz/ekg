@@ -23,8 +23,15 @@ var Plot = function() {
             showTooltip: false
           },
           highlighter: {
-            show: true,
+            show: false,
             sizeAdjust: 10
+          },
+          axesDefaults: {
+            showTicks: false,
+            showTickMarks: false       
+          },
+          seriesDefaults: {
+            showMarker: false
           },
           grid: {
             drawGridlines: false
