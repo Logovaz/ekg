@@ -35,6 +35,14 @@ var Plot = function() {
           },
           grid: {
             drawGridlines: false
+          },
+          axes: {
+            xaxis: {
+              pad: 0
+            },
+            yaxis: {
+              pad: 0
+            }
           }
         });
         self.plot.resetZoom();
