@@ -1,5 +1,6 @@
 var Plot = function() {
   this.step = 1;
+  this.range = $('#timerange').val();
   this.data = undefined;
   this.plot = undefined;
   
@@ -10,7 +11,8 @@ var Plot = function() {
       url: 'ajax/getPlotExample',
       dataType: 'json',
       data: {
-        step: self.step
+        step: self.step,
+        range: self.range
       },
       success: function( response ) {
         if(response === undefined) {
@@ -19,7 +21,7 @@ var Plot = function() {
         self.plot = $.jqplot('plot', [ response ], {
           cursor: {
             show: true,
-            zoom: true,
+            zoom: false,
             showTooltip: false
           },
           highlighter: {
@@ -38,10 +40,13 @@ var Plot = function() {
           },
           axes: {
             xaxis: {
-              pad: 0
+              pad: 0,
             },
             yaxis: {
-              pad: 0
+              pad: 0,
+              autoscale: false,
+              max: 10000,
+              min: 700
             }
           }
         });
@@ -88,6 +93,28 @@ $(function() {
     event.preventDefault();
     if(plot.decreaseStep()) {
       plot.getData();
+    }
+  });
+  $('#timerange').change(function ( event ) {
+    switch($( this ).val()) {
+      case '5': {
+        $('#plot').width(750);
+        plot.range = 5;
+        plot.getData();
+        break;
+      };
+      case '10': {
+        $('#plot').width(1500);
+        plot.range = 10;
+        plot.getData();
+        break;
+      };
+      case '30': {
+        $('#plot').width(1500);
+        plot.range = 10;
+        plot.getData();
+        break;
+      }
     }
   });
 });

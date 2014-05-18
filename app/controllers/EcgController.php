@@ -9,7 +9,7 @@ class EcgController extends Controller {
     public function getExampleData() {
         
         $ecg = new Ecg();
-        return Response::json($ecg->getExampleData(Input::get('step')));
+        return Response::json($ecg->getExampleData(Input::get('step'), Input::get('range')));
     }
     
     public function graph() {

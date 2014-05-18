@@ -1,11 +1,11 @@
 @section('meta')
-  <script type="text/javascript" src="../js/excanvas.min.js"></script>
-  <script type="text/javascript" src="../js/plot.min.js"></script>
-  <script type="text/javascript" src="../js/plot/jqplot.cursor.min.js"></script>
-  <script type="text/javascript" src="../js/plot/jqplot.dateAxisRenderer.min.js"></script>
-  <script type="text/javascript" src="../js/plot/jqplot.highlighter.min.js"></script>
-  <script type="text/javascript" src="../js/example.js"></script>
-  <link rel="stylesheet" type="text/css" href="../css/plot.min.css">
+  <script type="text/javascript" src="[% URL::to('/') %]/js/excanvas.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/plot.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.cursor.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.dateAxisRenderer.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.highlighter.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/example.js"></script>
+  <link rel="stylesheet" type="text/css" href="[% URL::to('/') %]/css/plot.min.css">
 @endsection
 
 @section('content')

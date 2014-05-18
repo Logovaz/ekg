@@ -2,11 +2,12 @@
 
 class Ecg extends Eloquent {
     
-    public function getExampleData($step) {
-        $from = $step * 15 - 15;
-        $to = $step * 15;
+    public function getExampleData($step, $range) {
+        $start = substr(DB::table('ecg_example')->min('timestamp'), 0, -3);
+        $from = $start + (($step-1) * $range);
+        $to = $from + $range;
         
-        $data = DB::table('ecg_example')->select('*')->whereBetween('id', array($from, $to))->get();
+        $data = DB::table('ecg_example')->select('*')->whereBetween('timestamp', array($from . '000', $to . '000'))->get();
         $result = array();
         foreach($data as $key => $val) {
             $volts = explode('*', $val->values);
@@ -14,7 +15,7 @@ class Ecg extends Eloquent {
             foreach($volts as $volt) {
                 $time += 4;
                 if($volt != 0) {
-                    array_push($result, array(intval(substr($time, -7)), intval($volt)));
+                    array_push($result, array(intval(substr($time, -8)), intval($volt)));
                 }
         
             }

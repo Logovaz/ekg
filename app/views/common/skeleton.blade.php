@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="[% URL::to('/') %]/css/common.css">
     <title>
       @yield('title')
     </title>
@@ -27,7 +27,7 @@
       @yield('footer')
     </div>
   </body>
-  <script type="text/javascript" src="../js/jquery.min.js"></script>
-  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/jquery.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/common.js"></script>
   @yield('meta')
 </html>
