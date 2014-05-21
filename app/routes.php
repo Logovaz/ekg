@@ -57,6 +57,7 @@ Route::get('article/{id}', 'UserController@article')->where('id', '[0-9]+');
  */
 
 Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
+Route::post('ajax/getPlot', 'EcgController@getPlot');
 Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
 
 /**
@@ -64,7 +65,7 @@ Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
  */
 
 Route::get('ecg', 'EcgController@example');
-Route::get('graph/{user_id}/{ecg_id}', 'EcgController@graph')->where('user_id', '[0-9]+')->where('ecg_id', '[0-9]+');
+Route::get('graph/{user_id}/{ecg_id}', 'EcgController@graph')->where('user_id', '[0-9]+')->where('ecg_id', '[0-9_]+');
 
 Route::get('messages', 'UserController@messages');
 Route::post('messages/send', array('before' => 'auth', 'uses' => 'UserController@sendMessage'));

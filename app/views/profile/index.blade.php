@@ -8,7 +8,7 @@
 @else
   @foreach($graphs as $graph)
     <div class="white-block messages-block">
-      <a class="undecorated blue" href="[% URL::to('/') %]/graph/[% $user_id %]/[% $graph->ecg_id %]" target="blank_">[% $graph->timestamp %]</a>
+      <a class="undecorated blue" href="[% URL::to('/') %]/graph/[% $user_id %]/[% strtotime($graph->start) %]_[% strtotime($graph->end) %]" target="blank_">[% $graph->start %] - [% $graph->end %]</a>
     </div>
   @endforeach
 @endif

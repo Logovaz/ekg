@@ -35,4 +35,25 @@ class Ecg extends Eloquent {
         }
     }
     
+    public function getPlotData($args) {
+        $start = $args['start'];
+        $from = $start + (($args['step']-1) * $args['range']);
+        $to = $from + $args['range'];
+        
+        $data = DB::table('tp_' . $args['user_id'] . '_ekg')->select('*')->whereBetween('timestamp', array($from . '000', $to . '000'))->get();
+        //dd(DB::getQueryLog());
+        $result = array();
+        foreach($data as $key => $val) {
+            $volts = explode('*', $val->values);
+            $time = $val->timestamp;
+            foreach($volts as $volt) {
+                $time += 4;
+                if($volt != 0) {
+                    array_push($result, array(intval(substr($time, -8)), intval($volt)));
+                }
+        
+            }
+        }
+        return $result;
+    }
 }
