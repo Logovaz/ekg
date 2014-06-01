@@ -58,6 +58,7 @@ Route::get('article/{id}', 'UserController@article')->where('id', '[0-9]+');
 
 Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
 Route::post('ajax/getPlot', 'EcgController@getPlot');
+Route::post('ajax/getCalendar', 'EcgController@getCalendar');
 Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
 
 /**

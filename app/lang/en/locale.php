@@ -84,6 +84,7 @@ return array (
     'add_patient' => 'Add patient',
     'send_message' => 'Send message',
     'message_to' => 'Message to ',
-    'no_graphs' => 'You have no ECG graphs'
+    'no_graphs' => 'You have no ECG graphs',
+    'year' => 'Year'
     
 );

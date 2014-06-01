@@ -114,7 +114,7 @@ td.info {
 }
 
 .block {
-  display: block;	
+  display: block !important;	
 }
 
 .signup {
@@ -594,4 +594,88 @@ td.info {
 
 .jqplot-series-shadowCanvas {
   background-image: url(../images/common/mm.png);
+}
+
+.calendar {
+  width: 800px;
+  font-family: 'Century Gothic';
+  font-size: 10pt;
+  background-color: #ffffff;
+  text-align: right;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.month-picker-table {
+  border: hidden;
+  border-collapse: collapse;
+}
+
+.month-picker-table td {
+  border: none;
+}
+
+.calendar td {
+  border: 1px solid #DCDCDC;
+  height: 35px;
+  padding-right: 5px;
+  vertical-align: top;
+  width: 60px;
+}
+
+.all-holder {
+  border-width: 0px;
+  border: hidden;
+  width: 1024px;
+}
+
+.month-picker {
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+  background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+  background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+  background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+  background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+  background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+  background-color:#ffffff;
+  border:1px solid #dcdcdc;
+  display:inline-block;
+  cursor:pointer;
+  color:#666666;
+  font-family: 'Century Gothic';
+  font-size:15px;
+  padding:3px 24px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #ffffff;
+  text-align: center;
+}
+
+
+.month-picker:hover {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+  background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+  background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+  background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+  background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+  background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+  background-color:#f6f6f6;
+  opacity: 1;
+}
+
+.month-picker:active {
+  position:relative;
+  top:1px;
+}
+
+.month-picker-passive {
+  opacity: 0.5;
+}
+
+.month-picker-active {
+  opacity: 1;
+  border: 1px solid #c0c0c0 !important;
 }
