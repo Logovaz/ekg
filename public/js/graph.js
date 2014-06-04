@@ -22,6 +22,7 @@ var Plot = function() {
           return false;
         }
         self.plot = $.jqplot('plot', [ response ], {
+          seriesColors:['#000000'],
           cursor: {
             show: true,
             zoom: false,

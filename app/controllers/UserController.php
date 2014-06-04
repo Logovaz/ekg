@@ -20,12 +20,17 @@ class UserController extends Controller {
     }
     
     public function profile() {
+        $date['month'] = date('m');
+        $date['year'] = date('Y');
         $ecg = new Ecg();
+        $years = $ecg->getYears(Auth::user()->id);
         $list = $ecg->getGraphs(Auth::user()->id);
         return View::make('profile.index')
                 ->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name)
                 ->with('graphs', $list)
-                ->with('user_id', Auth::user()->id);
+                ->with('user_id', Auth::user()->id)
+                ->with('date', $date)
+                ->with('years', $years);;
     }
     
     public function control() {
