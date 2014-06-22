@@ -5,6 +5,8 @@
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.dateAxisRenderer.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.highlighter.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/graph.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="[% URL::to('/') %]/css/jquery-ui.min.css">
   <link rel="stylesheet" type="text/css" href="[% URL::to('/') %]/css/plot.min.css">
 @endsection
 

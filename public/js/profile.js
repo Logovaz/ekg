@@ -7,9 +7,16 @@ var Calendar = function() {
     tr.setAttribute('id', 'week-' + weekNum);
     for(var i = 0; i < days.length; i++) {
       var td = document.createElement('td');
-      td.setAttribute('id', 'day-' + days[i]);
-      if(days[i] != 0) {
-        td.innerHTML = days[i];
+      td.setAttribute('id', 'day-' + days[i].n);
+      if(days[i].n != 0) {
+        var dayNumber = document.createElement('span');
+        dayNumber.innerHTML = days[i].n;
+        $(td).append(dayNumber);
+        if(days[i].start != undefined) {
+          var image = document.createElement('div');
+          image.className += 'heart';
+          $(image).insertAfter($(dayNumber));
+        }
       }
       tr.appendChild(td);
     }
