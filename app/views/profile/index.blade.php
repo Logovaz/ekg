@@ -1,5 +1,8 @@
 @section('meta')
   <script type="text/javascript" src="[% URL::to('/') %]/js/profile.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/calendar.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="[% URL::to('/') %]/css/jquery-ui.min.css">
 @endsection
 
 @section('content')

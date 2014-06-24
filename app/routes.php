@@ -65,6 +65,7 @@ Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
  * Common routes
  */
 
+Route::get('contacts', 'UserController@contacts');
 Route::get('ecg', 'EcgController@example');
 Route::get('graph/{user_id}/{ecg_id}', 'EcgController@graph')->where('user_id', '[0-9]+')->where('ecg_id', '[0-9_]+');
 

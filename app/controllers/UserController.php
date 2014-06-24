@@ -19,6 +19,10 @@ class UserController extends Controller {
         return View::make('information.index')->with('title', Lang::get('locale.information'));
     }
     
+    public function contacts() {
+        return View::make('contacts.index')->with('title', Lang::get('locale.contacts'));
+    }
+    
     public function profile() {
         $date['month'] = date('m');
         $date['year'] = date('Y');
@@ -30,7 +34,7 @@ class UserController extends Controller {
                 ->with('graphs', $list)
                 ->with('user_id', Auth::user()->id)
                 ->with('date', $date)
-                ->with('years', $years);;
+                ->with('years', $years);
     }
     
     public function control() {
