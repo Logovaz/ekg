@@ -46,11 +46,11 @@ Route::get('control', array('before' => 'auth', 'uses' => 'UserController@contro
  * User routes
  */
 Route::get('user/search', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userSearch'));
-Route::post('user/search/process', 'UserController@userSearchProcess');
-Route::get('user/{id}', 'UserController@userView')->where('id', '[0-9]+');
-Route::get('user/change/{id}', 'UserController@change')->where('id', '[0-9]+');
-Route::post('user/change/process', 'UserController@userChangeProcess');
-Route::get('article/{id}', 'UserController@article')->where('id', '[0-9]+');
+Route::post('user/search/process', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userSearchProcess'));
+Route::get('user/{id}', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userView'))->where('id', '[0-9]+');
+/* Route::get('user/change/{id}', array('before' => array('auth', 'admin'), 'uses' => 'UserController@change'))->where('id', '[0-9]+'); */
+Route::post('user/change/', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userChange'));
+Route::get('article/{id}', array('before' => array('auth', 'admin'), 'uses' => 'UserController@article'))->where('id', '[0-9]+');
 
 /**
  * Ajax routes
