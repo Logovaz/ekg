@@ -60,6 +60,7 @@ Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
 Route::post('ajax/getPlot', 'EcgController@getPlot');
 Route::post('ajax/getCalendar', 'EcgController@getCalendar');
 Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
+Route::post('ajax/getDays', 'UserController@getDays');
 
 /**
  * Common routes

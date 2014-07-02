@@ -16,7 +16,8 @@ class UserController extends Controller {
     }
     
     public function information() {
-        return View::make('information.index')->with('title', Lang::get('locale.information'));
+        $user = new User();
+        return View::make('information.index')->with('years', $user->getYears())->with('title', Lang::get('locale.information'));
     }
     
     public function contacts() {
@@ -205,6 +206,11 @@ class UserController extends Controller {
         } else {
             return Redirect::to('login')->withErrors($validator);
         }
+    }
+    
+    public function getDays() {
+        $user = new User();
+        return Response::json($user->getDays(Input::get('month'), Input::get('year')));
     }
 
     public function userSearchProcess() {

@@ -85,6 +85,11 @@ return array (
     'send_message' => 'Send message',
     'message_to' => 'Message to ',
     'no_graphs' => 'You have no ECG graphs',
-    'year' => 'Year'
+    'year' => 'Year',
+    'weight' => 'Weight',
+    'male' => 'Male',
+    'female' => 'Female',
+    'birthday' => 'Birthday',
+    'gender' => 'Gender'
     
 );

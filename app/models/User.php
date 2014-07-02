@@ -257,7 +257,19 @@ class User extends Eloquent implements UserInterface {
         } catch (Exception $e) {
             return false;
         }
-        
+    }
+    
+    public function getYears() {
+        $years = array(Lang::get('locale.year'));
+        $currentYear = date('Y');
+        for($i = $currentYear - 5; $i > $currentYear - 100; $i--) {
+            array_push($years, $i);
+        }
+        return $years;
+    }
+    
+    public function getDays($month, $year) {
+        return cal_days_in_month(CAL_GREGORIAN, $month, $year);
     }
 
     private function getValue($object, $value) {

@@ -22,7 +22,8 @@ App::before(function($request) {
         'confirm/process', 
         'information/process', 
         'confirm', 
-        'information'
+        'information',
+        'ajax/getDays'
     );
     
     if(!is_null(Auth::user()) && !in_array(Request::path(), $paths)) {
