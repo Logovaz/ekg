@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'ekg',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => 'KFwoyf8E',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_general_ci',
 			'prefix'    => '',
