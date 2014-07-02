@@ -1,29 +1,61 @@
 <?php
-
+/**
+ * @author Iliya.Bubenschikov
+ */
 class UserController extends Controller {
     
+	/**
+	 * Display index page 
+	 * @author Iliya.Bubenschikov
+	 * @return View 
+	 */
     public function home() {
         $user = new User();
         return View::make('home.index')->with('title', Lang::get('locale.home_title'))->with('news', $user->getNews());
     }
     
+    /**
+     * Display signup page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function signup() {
         return View::make('signup.index')->with('title', Lang::get('locale.signup_title'));
     }
     
+    /**
+     * Display signup confirmation page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function confirm() {
         return View::make('confirm.index')->with('title', Lang::get('locale.signup_confirm'));
     }
     
+    /**
+     * Display information input (name, surname) page !
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function information() {
         $user = new User();
         return View::make('information.index')->with('years', $user->getYears())->with('title', Lang::get('locale.information'));
     }
     
+    /**
+     * Display contacts page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function contacts() {
         return View::make('contacts.index')->with('title', Lang::get('locale.contacts'));
     }
     
+    /**
+     * Display profile page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function profile() {
         $date['month'] = date('m');
         $date['year'] = date('Y');
@@ -38,33 +70,69 @@ class UserController extends Controller {
                 ->with('years', $years);
     }
     
+    /**
+     * Display admin control page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function control() {
         return View::make('control.index')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
 
+    /**
+     * Display login page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function login() {
         return View::make('login.index')->with('title', Lang::get('locale.login_title'));
     }
     
+    /**
+     * @deprecated
+     * @author Roman.Kolomeets
+     * @param int $id - user id
+     */
     public function change($id) {        
         return View::make('user.change')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
     
+    /**
+     * Display patients page - for doctor only
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function patients() {
         $user = new User();
         return View::make('patients.index')->with('title', Lang::get('locale.patients_title'))->with('patients', $user->getPatients());
     }
     
+    /**
+     * Display user search page - for doctor only
+     * @author Iliya.Bubenschikov
+     * @return View 
+     */
     public function userSearch() {
         return View::make('user.search')->with('title', Lang::get('locale.user_search_title'));
     }
     
+    /**
+     * @deprecated
+     * @author Roman.Kolomeets
+     * @param int $id
+     * @return View
+     */
     public function article($id) {
         $user = new User();
         $article = $user->getArticle($id);
         return View::make('article.index')->with('title', Lang::get('locale.common_title') . $article->title)->with('article', $article);
     }
     
+    /**
+     * Display messages page
+     * @author Iliya.Bubenschikov
+     * @return View
+     */
     public function messages() {
         $user = new User();
         return View::make('messages.index')
@@ -73,11 +141,21 @@ class UserController extends Controller {
                 ->with('users', $user->getPatients());
     }
     
+    /**
+     * User logout
+     * @author Iliya.Bubenschikov
+     * @return Redirect
+     */
     public function logout() {
         Auth::logout();
         return Redirect::to('/');
     }
     
+    /**
+     * Signup process
+     * @author Iliya.Bubenschikov
+     * @return Redirect
+     */
     public function signupProcess() {
         $rules = array(
             'email' => 'required|email',
@@ -97,6 +175,11 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Send message - for doctor only
+     * @author Iliya.Bubenschikov
+     * @return Redirect
+     */
     public function sendMessage() {
         $user = new User();
         if($user->sendMessage(Input::all())) {
@@ -106,6 +189,11 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Send message with ajax request
+     * @author Iliya.Bubenschikov
+     * @return Redirect json
+     */
     public function sendAjaxMessage() {
         $user = new User();
         if($user->sendMessage(Input::all())) {
@@ -236,24 +324,16 @@ class UserController extends Controller {
         return View::make('user.view', array('profile' => $profile))->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
     }
 
-    public function userEdit($id) {
-        $user = new User();
-        $profile = $user->getProfile($id);
-        return View::make('user.view', $profile)->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
-    }
-
-    public function userEditProcess()
-    {
-
+    public function userChange() {
+    	dd(Input::all());
         $rules = array(
-            'name' => 'required|alpha|max:24|min:2',
-            'surname' => 'required|alpha|max:32|min:2'
+            'first' => 'required|alpha|max:24|min:2',
+            'surname' => 'required|alpha|max:32|min:2',
+        	
         );
         $validator = Validator::make(Input::all(). $rules);
         if($validator->passes()) {
             $user = new User();
-            
         }
-
     }
 }

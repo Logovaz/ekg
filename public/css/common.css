@@ -471,7 +471,13 @@ td.info {
   background:url(../images/common/photo-placeholder.png) no-repeat;
   float: right;
   overflow: hidden;
+  display: inline-block;
 }
+
+.admin-user-info td, th {
+  border: 1px solid #ddd
+}
+
 .messages-block {
   width: 800px;
   margin: 0 auto;
