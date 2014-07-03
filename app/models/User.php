@@ -89,11 +89,21 @@ class User extends Eloquent implements UserInterface {
         }
     }
     
-    public function setInformation($args) {
+    public function setInformation($args, $userId, $completeDate = false) {
         try {
-            $id = DB::table('users')->where('id', Auth::user()->id)->update(array(
+            if($completeDate) {
+                $birthday = $args['birthday'];
+            } else {
+                $birthday = $args['year'] . '-' . $args['month'] . '-' . $args['day'] . ' 00:00:00';
+            }
+            $middleName = empty($args['middle_name']) ? '' : $args['middle_name'];
+            $id = DB::table('users')->where('id', $userId)->update(array(
                 'first_name' => $args['name'],
+                'middle_name' => $middleName,
                 'last_name' => $args['surname'],
+                'weight' => $args['weight'],
+                'birthday' => $birthday,
+                'gender' => $args['gender'],
                 'state' => 'registered'
             ));
             return $id;

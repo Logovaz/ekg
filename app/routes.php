@@ -49,7 +49,7 @@ Route::get('user/search', array('before' => array('auth', 'admin'), 'uses' => 'U
 Route::post('user/search/process', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userSearchProcess'));
 Route::get('user/{id}', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userView'))->where('id', '[0-9]+');
 /* Route::get('user/change/{id}', array('before' => array('auth', 'admin'), 'uses' => 'UserController@change'))->where('id', '[0-9]+'); */
-Route::post('user/change/', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userChange'));
+Route::post('user/change', array('before' => array('auth', 'admin'), 'uses' => 'UserController@userChange'));
 Route::get('article/{id}', array('before' => array('auth', 'admin'), 'uses' => 'UserController@article'))->where('id', '[0-9]+');
 
 /**

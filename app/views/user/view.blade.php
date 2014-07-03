@@ -7,6 +7,7 @@
     <h2>[% $profile->first_name . ' ' . $profile->last_name . ' (' . $profile->login . ') - ' . $profile->state %] </h2>          
     <hr>
     [[% Form::open(array('action' => 'UserController@userChange')) %]]
+    <input type="hidden" name="user_id" value="[% $profile->id %]">
     <table class="admin-user-info">
       <tr>
         <th colspan="2">User info
@@ -15,7 +16,7 @@
       <tr>
         <td class="label">First name</td>
         <td class="info">
-          <input type="text" name="first_name" value="[% $profile->first_name %]">
+          <input type="text" name="name" value="[% $profile->first_name %]">
         </td>
       </tr>
       <tr>
@@ -27,15 +28,38 @@
       <tr>
         <td class="label">Last name</td>
         <td class="info">
-          <input type="text" name="last_name" value="[% $profile->last_name %]">
+          <input type="text" name="surname" value="[% $profile->last_name %]">
         </td>
       </tr>
-      <!-- <tr>
-        <td class="label">Email</td>
+      <tr>
+        <td class="label">Weight</td>
         <td class="info">
-          <input type="text" name="email" value="[% $profile->email %]">
+          <input type="text" name="weight" value="[% $profile->weight %]">
         </td>
-      </tr> -->
+      </tr>
+      <tr>
+        <td class="label">Birthday</td>
+        <td class="info">
+          <input type="text" name="birthday" value="[% $profile->birthday %]">
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Gender</td>
+        <td class="info">
+          <select name="gender">
+            <option value="male"
+              @if($profile->gender == 'male')
+                selected
+              @endif
+            >Male</option>
+            <option value="female"
+              @if($profile->gender == 'female')
+                selected
+              @endif
+            >Female</option>
+          </select>
+        </td>
+      </tr>
       <tr>
         <th class="info" colspan="2" align="left">Profile properties
         </th>

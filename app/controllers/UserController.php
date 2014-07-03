@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
 /**
  * @author Iliya.Bubenschikov
  */
@@ -252,13 +254,20 @@ class UserController extends Controller {
     public function informationProcess() {
         $rules = array(
             'name' => 'required|alpha|min:2|max:32',
-            'surname' => 'required|alpha|min:2|max:32'
+            'surname' => 'required|alpha|min:2|max:32',
+            'weight' => 'required|digits_between:2,3',
+            'year' => 'required|digits:4',
+            'month' => 'required|digits_between:1,2',
+            'day' => 'required|digits_between:1,2',
+            'gender' => 'required'
         );
         
         $validator = Validator::make(Input::all(), $rules);
         if($validator->passes()) {
             $user = new User();
-            $user->setInformation(Input::all());
+            $user->setInformation(Input::all(), Auth::user()->id);
+        } else {
+            return Redirect::to('information')->withErrors($validator);
         }
         return Redirect::to('profile')->with('success', Lang::get('locale.information_updated'));
     }
@@ -321,19 +330,25 @@ class UserController extends Controller {
     public function userView($id) {
         $user = new User();
         $profile = $user->getProfile($id);
-        return View::make('user.view', array('profile' => $profile))->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name);
+        return View::make('user.view', array('profile' => $profile))
+                ->with('title', Lang::get('locale.common_title') . $profile->first_name . ' ' . $profile->last_name);
     }
 
     public function userChange() {
-    	dd(Input::all());
         $rules = array(
-            'first' => 'required|alpha|max:24|min:2',
-            'surname' => 'required|alpha|max:32|min:2',
-        	
+            'name' => 'required|alpha|min:2|max:32',
+            'middle_name' => 'alpha|min:2|max:32',
+            'surname' => 'required|alpha|min:2|max:32',
+            'weight' => 'required|digits_between:2,3',
+            'gender' => 'required'
         );
-        $validator = Validator::make(Input::all(). $rules);
+        $validator = Validator::make(Input::all(), $rules);
         if($validator->passes()) {
             $user = new User();
+            $user->setInformation(Input::all(), Input::get('user_id'), true);
+            return Redirect::back();
+        } else {
+            return Redirect::back()->withErrors($validator);
         }
     }
 }
