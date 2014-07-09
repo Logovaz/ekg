@@ -21,6 +21,12 @@ var Plot = function() {
         if(response === undefined) {
           return false;
         }
+        
+        var top = response[0][1];
+        var bottom = response[response.length - 1][1];
+        var left = response[0][0];
+        var right = response[response.length - 1][0];
+        
         self.plot = $.jqplot('plot', [ response ], {
           seriesColors:['#000000'],
           cursor: {
@@ -52,6 +58,39 @@ var Plot = function() {
               max: 10000,
               min: 700
             }
+          },
+          canvasOverlay: {
+            show: true,
+            objects: [
+                {horizontalLine: {
+                  name: 'top',
+                  y: 9500,
+                  lineWidth: 2,
+                  color: 'red',
+                  shadow: false
+                }},
+                {horizontalLine: {
+                  name: 'bottom',
+                  y: 1200,
+                  lineWidth: 2,
+                  color: 'red',
+                  shadow: false
+                }},
+                {verticalLine: {
+                  name: 'left',
+                  x: left,
+                  lineWidth: 2,
+                  color: 'red',
+                  shadow: false
+                }},
+                {verticalLine: {
+                  name: 'right',
+                  x: right,
+                  lineWidth: 2,
+                  color: 'red',
+                  shadow: false
+                }},
+            ]
           }
         });
         self.plot.resetZoom();

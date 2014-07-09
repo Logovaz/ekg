@@ -3,6 +3,7 @@
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.cursor.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.dateAxisRenderer.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.canvasOverlay.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.highlighter.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/calendar.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/graph.js"></script>
