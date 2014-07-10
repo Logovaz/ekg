@@ -63,7 +63,26 @@
   
 </div>
 
+<div id="left-line-control">
+  <a href="#" class="dec">Left</a>
+  <a href="#" class="inc">right</a>
+</div>
+<div id="top-line-control">
+  <a href="#" class="dec">Left</a>
+  <a href="#" class="inc">right</a>
+</div>
+
 <div class="plot" id="plot"></div>
+
+<div id="right-line-control">
+  <a href="#" class="dec">Left</a>
+  <a href="#" class="inc">right</a>
+</div>
+<div id="bottom-line-control">
+  <a href="#" class="dec">Left</a>
+  <a href="#" class="inc">right</a>
+</div>
+
 <div class="white-block control-block">
   <select id="timerange">
     <option value="5">5 sec</option>

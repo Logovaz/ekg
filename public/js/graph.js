@@ -62,34 +62,34 @@ var Plot = function() {
           canvasOverlay: {
             show: true,
             objects: [
-                {horizontalLine: {
-                  name: 'top',
-                  y: 9500,
-                  lineWidth: 2,
-                  color: 'red',
-                  shadow: false
-                }},
-                {horizontalLine: {
-                  name: 'bottom',
-                  y: 1200,
-                  lineWidth: 2,
-                  color: 'red',
-                  shadow: false
-                }},
-                {verticalLine: {
-                  name: 'left',
-                  x: left,
-                  lineWidth: 2,
-                  color: 'red',
-                  shadow: false
-                }},
-                {verticalLine: {
-                  name: 'right',
-                  x: right,
-                  lineWidth: 2,
-                  color: 'red',
-                  shadow: false
-                }},
+              {horizontalLine: {
+                name: 'top',
+                y: 9500,
+                lineWidth: 1,
+                color: 'rgb(255,0,0)',
+                shadow: false
+              }},
+              {horizontalLine: {
+                name: 'bottom',
+                y: 1200,
+                lineWidth: 1,
+                color: 'rgb(255,0,0)',
+                shadow: false
+              }},
+              {verticalLine: {
+                name: 'left',
+                x: left,
+                lineWidth: 1,
+                color: 'rgb(255,0,0)',
+                shadow: false
+              }},
+              {verticalLine: {
+                name: 'right',
+                x: right,
+                lineWidth: 1,
+                color: 'rgb(255,0,0)',
+                shadow: false
+              }},
             ]
           }
         });
@@ -97,6 +97,38 @@ var Plot = function() {
       }
     });
   };
+  
+  this.moveVertical = function(line, direction, increement) {
+    var overlay = this.plot.plugins.canvasOverlay;
+    if(line == 'left') {
+      var line = overlay.get('left');
+    } else {
+      var line = overlay.get('right');
+    }
+    
+    if(direction == 'left') {
+      line.options.x -= increement;
+    } else {
+      line.options.x += increement;
+    }
+    overlay.draw(this.plot);
+  };
+  
+  this.moveHorizontal = function(line, direction, increement) {
+    var overlay = this.plot.plugins.canvasOverlay;
+    if(line == 'top') {
+      var line = overlay.get('top');
+    } else {
+      var line = overlay.get('bottom');
+    }
+    
+    if(direction == 'bottom') {
+      line.options.y -= increement;
+    } else {
+      line.options.y += increement;
+    }
+    overlay.draw(this.plot);
+  }
   
   this.increaseStep = function() {
     this.step++;
@@ -116,6 +148,122 @@ var Plot = function() {
     this.plot.resetZoom();
   };
 };
+
+/**
+ * jQuery Plugin rewrited
+ */
+(function($){
+  $.fn.incrementLiner = function(options) {
+    
+    var settings = {            
+      timeout: 50,
+      cursor: false
+    };
+  
+    return this.each(function() {
+      if (options) {
+        $.extend(settings, options);
+      }
+      
+      var $this = $(this);
+      
+      var dec = $this.find('.dec');
+      var inc = $this.find('.inc');
+      var iteration = 1;
+      var timeout = 50; 
+      var isDown = false;     
+      updateCursor();
+      mousePress(inc, doIncrease);
+      mousePress(dec, doDecrease);
+      
+      function mousePress(obj, func) { 
+          focusElement = obj;
+          obj.unbind('mousedown');
+          obj.unbind('mouseup');
+          obj.unbind('mouseleave');
+          obj.bind('mousedown', function() {
+            isDown = true;            
+            setTimeout(func, settings.timeout);
+          });
+          
+          obj.bind('mouseup', function() {              
+            isDown = false;
+            iteration = 1;
+          });
+          
+          obj.bind('mouseleave', function() {             
+            isDown = false;
+            iteration = 1;
+          });
+        } 
+      
+      function updateCursor(){
+        if(settings.cursor){ 
+          dec.css('cursor','pointer');
+          inc.css('cursor','pointer');
+        }
+      }
+      
+      function doIncrease() {
+        if (isDown) {
+          var increement = getIncrement(iteration);
+          switch(settings.line) {
+            case 'left' : {
+              settings.plot.moveVertical('left', 'right', increement);
+              break;
+            };
+            case 'right' : {
+              settings.plot.moveVertical('right', 'right', increement);
+              break;
+            };
+            case 'top' : {
+              settings.plot.moveHorizontal('top', 'top', increement);
+              break;
+            };
+            case 'bottom' : {
+              settings.plot.moveHorizontal('bottom', 'top', increement);
+              break;
+            };
+          }
+          iteration++;
+          setTimeout(doIncrease, settings.timeout);
+        }
+      }
+      
+      function doDecrease() {
+        if (isDown) {
+          var increement = getIncrement(iteration);           
+          switch(settings.line) {
+            case 'left' : {
+              settings.plot.moveVertical('left', 'left', increement);
+              break;
+            };
+            case 'right' : {
+              settings.plot.moveVertical('right', 'left', increement);
+              break;
+            };
+            case 'top' : {
+              settings.plot.moveHorizontal('top', 'bottom', increement);
+              break;
+            };
+            case 'bottom' : {
+              settings.plot.moveHorizontal('bottom', 'bottom', increement);
+              break;
+            };
+          }
+          iteration++;
+          setTimeout(doDecrease, settings.timeout);
+        }
+      }
+      
+      function getIncrement(iteration){
+        var increement = 1;
+        increement = iteration / 100 * 10;
+        return  increement;
+      }      
+    });
+  };
+})(jQuery);
 
 $(function() {
   var plot = new Plot();
@@ -152,6 +300,7 @@ $(function() {
       plot.getData();
     }
   });
+  
   $('#timerange').change(function ( event ) {
     switch($( this ).val()) {
       case '5': {
@@ -173,5 +322,29 @@ $(function() {
         break;
       }
     }
+  });
+  
+  $('#left-line-control').incrementLiner({
+    line: 'left',
+    plot: plot,
+    timeout: 10
+  });
+  
+  $('#right-line-control').incrementLiner({
+    line: 'right',
+    plot: plot,
+    timeout: 10
+  });
+  
+  $('#top-line-control').incrementLiner({
+    line: 'top',
+    plot: plot,
+    timeout: 5
+  });
+  
+  $('#bottom-line-control').incrementLiner({
+    line: 'bottom',
+    plot: plot,
+    timeout: 5
   });
 });
