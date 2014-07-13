@@ -698,3 +698,21 @@ td.info {
   opacity: 1;
   border: 1px solid #c0c0c0 !important;
 }
+
+.invisible-table {
+  border: 0;
+  margin-top: 10px;
+}
+
+.control-table {
+  width: 400px;
+}
+
+.invisible-table td {
+  border: 0 !important;
+}
+
+.td-right {
+  text-align: right;
+  padding-right: 5px;
+}

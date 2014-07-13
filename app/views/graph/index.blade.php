@@ -60,28 +60,58 @@
       </td>
     </tr>
   </table>
-  
 </div>
 
-<div id="left-line-control">
-  <a href="#" class="dec">Left</a>
-  <a href="#" class="inc">right</a>
-</div>
-<div id="top-line-control">
-  <a href="#" class="dec">Left</a>
-  <a href="#" class="inc">right</a>
+<div class="grey-block" style="width: 400px;">
+<table class="invisible-table control-table centered" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td class="td-right">
+      <span>Left limit:</span>
+    </td>
+    <td>
+      <div id="left-line-control" class="centered">
+        <a href="#" class="dec green-btn">Left</a>
+        <a href="#" class="inc green-btn">Right</a>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="td-right">
+      <span>Right limit:</span>
+    </td>
+    <td>
+      <div id="right-line-control" class="centered">
+        <a href="#" class="dec green-btn">Left</a>
+        <a href="#" class="inc green-btn">Right</a>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="td-right">
+      <span>Top limit:</span>
+    </td>
+    <td>
+      <div id="top-line-control" class="centered">
+        <a href="#" class="dec green-btn">Down</a>
+        <a href="#" class="inc green-btn">Up</a>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="td-right">
+      <span>Bottom limit:</span>
+    </td>
+    <td>
+      <div id="bottom-line-control" class="centered">
+        <a href="#" class="dec green-btn">Down</a>
+        <a href="#" class="inc green-btn">Up</a>
+      </div>
+    </td>
+  </tr>
+</table>
 </div>
 
 <div class="plot" id="plot"></div>
-
-<div id="right-line-control">
-  <a href="#" class="dec">Left</a>
-  <a href="#" class="inc">right</a>
-</div>
-<div id="bottom-line-control">
-  <a href="#" class="dec">Left</a>
-  <a href="#" class="inc">right</a>
-</div>
 
 <div class="white-block control-block">
   <select id="timerange">

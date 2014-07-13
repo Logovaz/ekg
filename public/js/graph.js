@@ -100,12 +100,8 @@ var Plot = function() {
   
   this.moveVertical = function(line, direction, increement) {
     var overlay = this.plot.plugins.canvasOverlay;
-    if(line == 'left') {
-      var line = overlay.get('left');
-    } else {
-      var line = overlay.get('right');
-    }
-    
+    var line = overlay.get(line);
+
     if(direction == 'left') {
       line.options.x -= increement;
     } else {
@@ -114,13 +110,23 @@ var Plot = function() {
     overlay.draw(this.plot);
   };
   
+  this.lineWide = function (line) {
+    var overlay = this.plot.plugins.canvasOverlay;
+    var line = overlay.get(line);
+    line.options.lineWidth = 3;
+    overlay.draw(this.plot);
+  };
+  
+  this.lineThin = function (line) {
+    var overlay = this.plot.plugins.canvasOverlay;
+    var line = overlay.get(line);
+    line.options.lineWidth = 1;
+    overlay.draw(this.plot);
+  };
+
   this.moveHorizontal = function(line, direction, increement) {
     var overlay = this.plot.plugins.canvasOverlay;
-    if(line == 'top') {
-      var line = overlay.get('top');
-    } else {
-      var line = overlay.get('bottom');
-    }
+    var line = overlay.get(line);
     
     if(direction == 'bottom') {
       line.options.y -= increement;
@@ -128,7 +134,7 @@ var Plot = function() {
       line.options.y += increement;
     }
     overlay.draw(this.plot);
-  }
+  };
   
   this.increaseStep = function() {
     this.step++;
@@ -194,7 +200,13 @@ var Plot = function() {
           obj.bind('mouseleave', function() {             
             isDown = false;
             iteration = 1;
+            settings.plot.lineThin(settings.line);
           });
+          
+          obj.bind('mouseover', function() {             
+            settings.plot.lineWide(settings.line);
+          });
+          
         } 
       
       function updateCursor(){
