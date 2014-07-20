@@ -3,138 +3,320 @@ var Plot = function() {
   this.range = $('#timerange').val();
   this.data = undefined;
   this.plot = undefined;
-  
+    
   this.getData = function() {
     var self = this;
+    var valueStart = $('#start').val();
+    var valueEnd = $('#end').val();
+    
+    var valueStep = (self.step-1)*self.range;
+    
+    var StartGraphTime =  +valueStart + valueStep ;
+    var FinishGraphTime =  +valueStart + valueStep ;
+    
+    self.range = 30;
+    var finishTime = StartGraphTime + 30000;
+    
+    var ekgLine = [];
+    var datasetECG = [];
+    var ekgColor = "#000000";
+    
+    var pulsesTimes = [];
+    var pulsesColor = "#000000";
+    
     $.ajax({
       type: 'post',
       url: $('#url').val() + '/ajax/getPlot',
       dataType: 'json',
       data: {
         step: self.step,
-        range: self.range,
-        start: $('#start').val(),
-        end: $('#end').val(),
+        /* range: self.range, */
+        range: 30,
+        start: valueStart,
+        end: valueEnd,
         user_id: $('#user_id').val()
       },
+     
       success: function( response ) {
         if(response === undefined) {
+          alert("graph.js.Plot.GetData.fail");
           return false;
         }
         
-        var top = response[0][1];
-        var bottom = response[response.length - 1][1];
-        var left = response[0][0];
-        var right = response[response.length - 1][0];
+        if ( response.length == 0 ){
+          ekgColor = '#0000FF';
+          pulsesColor = '#0000FF';
+          response = 
+          [
+            [1196463600000, 1000], [1196550000000, 1000], [1196636400000, 1000], [1196722800000, 1000], 
+            [1196809200000, 1000], [1196895600000, 1000], [1196982000000, 1000], [1197068400000, 1000], 
+            [1197154800000, 1000], [1197241200000, 1000], [1197327600000, 1000], [1197414000000, 1000], 
+            [1197500400000, 1000], [1197586800000, 1000], [1197673200000, 1000], [1197759600000, 1000], 
+            [1197846000000, 1000], [1197932400000, 1000], [1198018800000, 1000], [1198105200000, 1000], 
+            [1198191600000, 1000], [1198278000000, 1000], [1198364400000, 1000], [1198450800000, 1000], 
+            [1198537200000, 1000], [1198623600000, 1000], [1198710000000, 1000], [1198796400000, 1000], 
+            [1198882800000, 1000], [1198969200000, 1000], [1199055600000, 1000], [1199142000000, 1000], 
+            [1199228400000, 1000], [1199314800000, 1000], [1199401200000, 1000], [1199487600000, 1000], 
+            [1199574000000, 1000], [1199660400000, 1000], [1199746800000, 1000], [1199833200000, 1000], 
+            [1199919600000, 1000], [1200006000000, 1000], [1200092400000, 1000], [1200178800000, 1000], 
+            [1200265200000, 1000], [1200351600000, 1000], [1200438000000, 1000], [1200524400000, 1000], 
+            [1200610800000, 1000], [1200697200000, 1000], [1200783600000, 1000], [1200870000000, 1000], 
+            [1200956400000, 1000], [1201042800000, 1000], [1201129200000, 1000], [1201215600000, 1000], 
+            [1201302000000, 1000], [1201388400000, 1000], [1201474800000, 1000], [1201561200000, 1000], 
+            [1201647600000, 1000], [1201734000000, 1000], [1201820400000, 1000], [1201906800000, 1000], 
+            [1201993200000, 1000], [1202079600000, 1000], [1202166000000, 1000], [1202252400000, 1000], 
+            [1202338800000, 1000], [1202425200000, 1000], [1202511600000, 1000], [1202598000000, 1000], 
+            [1202684400000, 1000], [1202770800000, 1000], [1202857200000, 1000], [1202943600000, 1000], 
+            [1203030000000, 1000], [1203116400000, 1000], [1203202800000, 1000], [1203289200000, 1000], 
+            [1203375600000, 1000], [1203462000000, 1000], [1203548400000, 1000], [1203634800000, 1000], 
+            [1203721200000, 1000], [1203807600000, 1000], [1203894000000, 1000]];
+        }
+      
+        var verticalLineColor = '#000000';
+        var pulseColor = '#000000';
+  
+        var showResponse = false;
         
-        self.plot = $.jqplot('plot', [ response ], {
-          seriesColors:['#000000'],
-          cursor: {
-            show: true,
-            zoom: false,
-            showTooltip: false
+        var startTimeGraph = 0; 
+        /* time correction for graph */
+        for ( var i = 0; i < response.length; i++) {
+          
+          var timeCorrection = response[i][0] + (60 * 60 * 1000)*2;
+          response[i][0] = timeCorrection;
+  
+          if ( i == 0 ){
+            startTimeGraph = response[i][0];
+          }
+          
+          if ( response[i][1] == 0 ){
+            pulsesTimes.push(response[i][0]);
+          }else{
+            ekgLine.push(response[i]);
+          }
+        }
+        var tmp = (60 * 60 )*2;
+        
+        valueStart = startTimeGraph;
+        valueEnd =  +(+valueStart + 30000);
+              
+        var count = 0;
+        var time =  valueStart;
+        
+        for ( var i = valueStart; i < valueEnd; i=i+40){
+          count++;
+          
+          var line = [];
+          line.push( [time, 2500  ]  );
+          line.push( [time, 7000 ]  );
+          if (count%5 ==0 ){
+            /* datasetECG.push( {data:line, color:'#CA8907'} ); */
+          }else{
+            datasetECG.push( {data:line, color:'#FFAB00'} );
+          }
+          time+=40;
+        }
+        
+        count = 0;
+        for ( var i = 2500; i <= 7000; i=i+150){
+          count++;
+          
+          var line = [];
+          line.push( [valueStart, i  ]  );
+          line.push( [valueEnd, i ]  );
+          if (count%5 ==0 ){
+            /* datasetECG.push( {data:line, color:'#CA8907'} ); */
+          }else{
+            datasetECG.push( {data:line, color:'#FFAB00'} );
+          }
+        }
+        
+        /* dark line */
+        count = 0;
+        time = valueStart;
+        for ( var i = valueStart; i < valueEnd; i=i+40){
+          count++;
+          
+          var line = [];
+          line.push( [time, 2500  ]  );
+          line.push( [time, 7000 ]  );
+          if (count%5 ==0 ){
+            datasetECG.push( {data:line, color:'#CA8907', lines:{show:true, lineWidth:5} } );
+          }else{
+            /* datasetECG.push( {data:line, color:'#FFAB00'} ); */
+          }
+          time+=40;
+        }
+        
+        count = 0;
+        for ( var i = 2500; i <= 7000; i=i+150){
+          count++;
+          
+          var line = [];
+          line.push( [valueStart, i  ]  );
+          line.push( [valueEnd, i ]  );
+          if (count%5 ==0 ){
+            datasetECG.push( {data:line, color:'#CA8907', lines:{show:true, lineWidth:5} } );
+          }else{
+            /* datasetECG.push( {data:line, color:'#FFAB00'} ); */
+          }
+        }
+  
+        datasetECG.push({data:ekgLine, color:ekgColor, lines:{show:true, lineWidth:5} });
+
+        var pulsesLine = [];
+        var pulsesLineUnder = [];
+        var pulsesLineOver = [];
+    
+        var interval = +StartGraphTime;
+      
+        var datasetPulse = [];
+        
+        showResponse = true;
+        if ( pulsesTimes.length == 0 ){
+          for ( var i = 0; i< 3; i++ ){
+            interval += 10000;
+          }
+        }else{
+          for ( var i = 0; i< pulsesTimes.length; i++ ){
+            if ( i == 0 ){
+            }else{
+              var actualPulse = Math.floor(60000/( pulsesTimes[i]-pulsesTimes[i-1]) );
+              var middlePulse = 0;
+              
+    
+              
+              pulsesLine.push( [ pulsesTimes[i]  ,  actualPulse ]  );
+              
+                        switch( i ){
+                case 0:
+                  middlePulse = actualPulse;
+                  break;
+                case 1:
+                  middlePulse = (actualPulse+pulsesLine[0][1])/2;
+                  break;
+                case 2:
+                  middlePulse = (actualPulse+pulsesLine[0][1]+pulsesLine[1][1])/3;
+                  break;
+                case 3:
+                  middlePulse = (actualPulse+pulsesLine[0][1]+pulsesLine[1][1]+pulsesLine[2][1])/4;
+                  break;
+                default:
+                  middlePulse = (actualPulse
+                      +pulsesLine[i-1][1]
+                      +pulsesLine[i-2][1]
+                      +pulsesLine[i-3][1]
+                      +pulsesLine[i-4][1]
+                    )/5;
+                  break;
+              }
+              
+              pulsesLineUnder.push( [ pulsesTimes[i]  ,  middlePulse - 10 ] );
+              pulsesLineOver.push( [ pulsesTimes[i]  ,  middlePulse + 10 ] );
+              
+              var line = [];
+              line.push( [pulsesTimes[i], 20  ]  );
+              line.push( [pulsesTimes[i], actualPulse ]  );
+              datasetPulse.push( {data:line, color:verticalLineColor} );
+            }
+          }
+        }
+        datasetPulse.push( {data:pulsesLine, color:pulseColor } );
+        datasetPulse.push( {data:pulsesLineUnder, color:'#FF00FF' } );
+        datasetPulse.push( {data:pulsesLineOver, color:'#FF00FF' } );
+    
+      
+        function weekendAreas(axes) {
+          var markings = [], d = new Date(axes.xaxis.min);
+          /* go to the first Saturday */
+          d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7))
+          d.setUTCSeconds(0);
+          d.setUTCMinutes(0);
+          d.setUTCHours(0);
+    
+          var i = d.getTime();
+    
+          // when we don't set yaxis, the rectangle automatically
+          // extends to infinity upwards and downwards
+    
+          do {
+            markings.push({ xaxis: { from: i, to: i + 2 * 24 * 60 * 60 * 1000 } });
+            i += 7 * 24 * 60 * 60 * 1000;
+          } while (i < axes.xaxis.max);
+    
+          return markings;
+        }
+          
+          
+        var options = {
+          xaxis: {
+            mode: 'time',
+            timeformat: "%d-%m-%Y %H:%M:%S"
+             
           },
-          highlighter: {
-            show: false,
-            sizeAdjust: 10
+          yaxis: {
+            min: 2500,
+            max: 7000
+             
           },
-          axesDefaults: {
-            showTicks: false,
-            showTickMarks: false       
-          },
-          seriesDefaults: {
-            showMarker: false
+          selection: {
+            mode: "x"
           },
           grid: {
-            drawGridlines: false
-          },
-          axes: {
-            xaxis: {
-              pad: 0,
+            markings: weekendAreas,
+            backgroundColor: "#F0E68C" ,
+            hoverable: true
+          }
+        };
+        var plot = $.plot('#placeholder', datasetECG, options);
+        
+        var overview = $.plot("#overview", datasetPulse, {
+          series: {
+            lines: {
+              show: true,
+              lineWidth: 1
             },
-            yaxis: {
-              pad: 0,
-              autoscale: false,
-              max: 10000,
-              min: 700
-            }
+            shadowSize: 0
           },
-          canvasOverlay: {
-            show: true,
-            objects: [
-              {horizontalLine: {
-                name: 'top',
-                y: 9500,
-                lineWidth: 1,
-                color: 'rgb(255,0,0)',
-                shadow: false
-              }},
-              {horizontalLine: {
-                name: 'bottom',
-                y: 1200,
-                lineWidth: 1,
-                color: 'rgb(255,0,0)',
-                shadow: false
-              }},
-              {verticalLine: {
-                name: 'left',
-                x: left,
-                lineWidth: 1,
-                color: 'rgb(255,0,0)',
-                shadow: false
-              }},
-              {verticalLine: {
-                name: 'right',
-                x: right,
-                lineWidth: 1,
-                color: 'rgb(255,0,0)',
-                shadow: false
-              }},
-            ]
+          xaxis: {
+            //ticks: [],
+            mode: "time",
+            timeformat: "%d-%m-%Y %H:%M:%S"
+          },
+          yaxis: {
+            //ticks: [],
+            min: 20,
+            //autoscaleMargin: .01//autoscaleMargin: 0.1
+            tickSize:20
+          },
+          selection: {
+            mode: "x"
           }
         });
-        self.plot.resetZoom();
-      }
+   
+   
+        $("#placeholder").bind("plotselected", function (event, ranges) {
+
+        $.each(plot.getXAxes(), function(_, axis) {
+          var opts = axis.options;
+          opts.min = ranges.xaxis.from;
+          opts.max = ranges.xaxis.to;
+        });
+        plot.setupGrid();
+        plot.draw();
+        plot.clearSelection();
+
+      // don't fire event on the overview to prevent eternal loop
+      overview.setSelection(ranges, true);
     });
-  };
-  
-  this.moveVertical = function(line, direction, increement) {
-    var overlay = this.plot.plugins.canvasOverlay;
-    var line = overlay.get(line);
-
-    if(direction == 'left') {
-      line.options.x -= increement;
-    } else {
-      line.options.x += increement;
+      $("#overview").bind("plotselected", function (event, ranges) {
+        plot.setSelection(ranges);
+      });
+      // Add the Flot version string to the footer
+      $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+      
     }
-    overlay.draw(this.plot);
-  };
-  
-  this.lineWide = function (line) {
-    var overlay = this.plot.plugins.canvasOverlay;
-    var line = overlay.get(line);
-    line.options.lineWidth = 3;
-    overlay.draw(this.plot);
-  };
-  
-  this.lineThin = function (line) {
-    var overlay = this.plot.plugins.canvasOverlay;
-    var line = overlay.get(line);
-    line.options.lineWidth = 1;
-    overlay.draw(this.plot);
-  };
-
-  this.moveHorizontal = function(line, direction, increement) {
-    var overlay = this.plot.plugins.canvasOverlay;
-    var line = overlay.get(line);
-    
-    if(direction == 'bottom') {
-      line.options.y -= increement;
-    } else {
-      line.options.y += increement;
-    }
-    overlay.draw(this.plot);
-  };
+  });
+};
   
   this.increaseStep = function() {
     this.step++;
@@ -153,129 +335,21 @@ var Plot = function() {
   this.resetZoom = function() {
     this.plot.resetZoom();
   };
-};
-
-/**
- * jQuery Plugin rewrited
- */
-(function($){
-  $.fn.incrementLiner = function(options) {
     
-    var settings = {            
-      timeout: 50,
-      cursor: false
-    };
-  
-    return this.each(function() {
-      if (options) {
-        $.extend(settings, options);
-      }
-      
-      var $this = $(this);
-      
-      var dec = $this.find('.dec');
-      var inc = $this.find('.inc');
-      var iteration = 1;
-      var timeout = 50; 
-      var isDown = false;     
-      updateCursor();
-      mousePress(inc, doIncrease);
-      mousePress(dec, doDecrease);
-      
-      function mousePress(obj, func) { 
-          focusElement = obj;
-          obj.unbind('mousedown');
-          obj.unbind('mouseup');
-          obj.unbind('mouseleave');
-          obj.bind('mousedown', function() {
-            isDown = true;            
-            setTimeout(func, settings.timeout);
-          });
-          
-          obj.bind('mouseup', function() {              
-            isDown = false;
-            iteration = 1;
-          });
-          
-          obj.bind('mouseleave', function() {             
-            isDown = false;
-            iteration = 1;
-            settings.plot.lineThin(settings.line);
-          });
-          
-          obj.bind('mouseover', function() {             
-            settings.plot.lineWide(settings.line);
-          });
-          
-        } 
-      
-      function updateCursor(){
-        if(settings.cursor){ 
-          dec.css('cursor','pointer');
-          inc.css('cursor','pointer');
-        }
-      }
-      
-      function doIncrease() {
-        if (isDown) {
-          var increement = getIncrement(iteration);
-          switch(settings.line) {
-            case 'left' : {
-              settings.plot.moveVertical('left', 'right', increement);
-              break;
-            };
-            case 'right' : {
-              settings.plot.moveVertical('right', 'right', increement);
-              break;
-            };
-            case 'top' : {
-              settings.plot.moveHorizontal('top', 'top', increement);
-              break;
-            };
-            case 'bottom' : {
-              settings.plot.moveHorizontal('bottom', 'top', increement);
-              break;
-            };
-          }
-          iteration++;
-          setTimeout(doIncrease, settings.timeout);
-        }
-      }
-      
-      function doDecrease() {
-        if (isDown) {
-          var increement = getIncrement(iteration);           
-          switch(settings.line) {
-            case 'left' : {
-              settings.plot.moveVertical('left', 'left', increement);
-              break;
-            };
-            case 'right' : {
-              settings.plot.moveVertical('right', 'left', increement);
-              break;
-            };
-            case 'top' : {
-              settings.plot.moveHorizontal('top', 'bottom', increement);
-              break;
-            };
-            case 'bottom' : {
-              settings.plot.moveHorizontal('bottom', 'bottom', increement);
-              break;
-            };
-          }
-          iteration++;
-          setTimeout(doDecrease, settings.timeout);
-        }
-      }
-      
-      function getIncrement(iteration){
-        var increement = 1;
-        increement = iteration / 100 * 10;
-        return  increement;
-      }      
-    });
-  };
-})(jQuery);
+  function checkTime(i) {
+    if (i<10) {
+      i="0" + i;
+    }
+    return i;
+  }
+
+function getHumanDateTime( time ){
+  var t = new Date(time);
+  return checkTime(t.getDay())+'.'+checkTime(t.getMonth())+'.'+checkTime(t.getFullYear())
+        +'\n\r '+checkTime(t.getHours())+':'+checkTime(t.getMinutes())+':'+checkTime(t.getSeconds())
+}
+
+};
 
 $(function() {
   var plot = new Plot();
@@ -312,7 +386,6 @@ $(function() {
       plot.getData();
     }
   });
-  
   $('#timerange').change(function ( event ) {
     switch($( this ).val()) {
       case '5': {
@@ -334,29 +407,5 @@ $(function() {
         break;
       }
     }
-  });
-  
-  $('#left-line-control').incrementLiner({
-    line: 'left',
-    plot: plot,
-    timeout: 10
-  });
-  
-  $('#right-line-control').incrementLiner({
-    line: 'right',
-    plot: plot,
-    timeout: 10
-  });
-  
-  $('#top-line-control').incrementLiner({
-    line: 'top',
-    plot: plot,
-    timeout: 5
-  });
-  
-  $('#bottom-line-control').incrementLiner({
-    line: 'bottom',
-    plot: plot,
-    timeout: 5
   });
 });

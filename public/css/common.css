@@ -716,3 +716,10 @@ td.info {
   text-align: right;
   padding-right: 5px;
 }
+
+.demo-placeholder {
+  height: 600px;
+}
+.demo-placeholder-small {
+  height: 300px;
+}

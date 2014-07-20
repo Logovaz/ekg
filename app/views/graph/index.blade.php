@@ -5,6 +5,8 @@
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.dateAxisRenderer.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.canvasOverlay.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.highlighter.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/flot/jquery.flot.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/flot/jquery.flot.time.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/calendar.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/graph.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/jquery-ui.min.js"></script>
@@ -111,7 +113,33 @@
 </table>
 </div>
 
-<div class="plot" id="plot"></div>
+<div id="content">
+  <div class="demo-container">
+    <div id="placeholder" class="demo-placeholder"></div>
+  </div>
+  <div class="demo-container" style="height:350px;">
+    <div id="overview" class="demo-placeholder-small"></div>
+  </div>
+</div>
+<div class="demo-container" style="height:75px;">
+<table border='1'>
+  <tr>
+    <td>HR: 120 bpm</td>
+    <td>P Dur: 100 ms</td>
+    <td>PR int : 272 ms</td>
+    <td>QRS Dur: 139 ms</td>
+    <td>QT/QTC int: 456/405 ms</td>
+  </tr>
+  <tr>
+    <td>AR: none</td>
+    <td>P/QRS/T axis: 155/-13/39 </td>
+    <td>RV5/SV1 amp: 0.462/1.319 mV</td>
+    <td>RV5/+SV1 amp: 1.781 mV</td>
+    <td>RV6/SV2 amp 0.592/1.273 mV</td>
+  </tr>
+</table>
+
+</div>
 
 <div class="white-block control-block">
   <select id="timerange">
