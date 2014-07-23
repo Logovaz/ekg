@@ -41,16 +41,14 @@ class Ecg extends Eloquent {
         $to = $from + $args['range'];
         
         $data = DB::table('tp_' . $args['user_id'] . '_ekg')->select('*')->whereBetween('timestamp', array($from . '000', $to . '000'))->get();
+        
         $result = array();
         foreach($data as $key => $val) {
             $volts = explode('*', $val->values);
             $time = $val->timestamp;
             foreach($volts as $volt) {
                 $time += 4;
-                if($volt != 0) {
-                    array_push($result, array(intval(substr($time, -8)), intval($volt)));
-                }
-        
+                array_push($result, array(intval( $time ), intval($volt)));
             }
         }
         return $result;
@@ -64,6 +62,7 @@ class Ecg extends Eloquent {
     public function getCalendar($args) {
         $month = $args['month'];
         $year = $args['year'];
+        $user_id = $args['user_id'];
         
         /* first element is array of day names */
         $days = array(
@@ -82,7 +81,7 @@ class Ecg extends Eloquent {
         $end = date('Y-m-t', strtotime($start)) . ' 00:00:00'; /* last day of the month */
         
         /* get all graphs of this month */
-        $graphs = DB::table('graphs')->select('*')->where('start', '>', $start)->where('end', '<', $end)->get();
+        $graphs = DB::table('graphs')->select('*')->where('user_id', '=', $user_id)->where('start', '>', $start)->where('end', '<', $end)->get();
         
         $weeks = $this->numWeeks($month, $year); /* get number of weeks in this month */
         for($i = 1; $i < $weeks + 1; $i++) {

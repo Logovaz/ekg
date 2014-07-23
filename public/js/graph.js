@@ -43,7 +43,7 @@ var Plot = function() {
           return false;
         }
         
-        if ( response.length == 0 ){
+        /*if ( response.length == 0 ){
           ekgColor = '#0000FF';
           pulsesColor = '#0000FF';
           response = 
@@ -70,7 +70,7 @@ var Plot = function() {
             [1203030000000, 1000], [1203116400000, 1000], [1203202800000, 1000], [1203289200000, 1000], 
             [1203375600000, 1000], [1203462000000, 1000], [1203548400000, 1000], [1203634800000, 1000], 
             [1203721200000, 1000], [1203807600000, 1000], [1203894000000, 1000]];
-        }
+        }*/
       
         var verticalLineColor = '#000000';
         var pulseColor = '#000000';
@@ -111,7 +111,7 @@ var Plot = function() {
           if (count%5 ==0 ){
             /* datasetECG.push( {data:line, color:'#CA8907'} ); */
           }else{
-            datasetECG.push( {data:line, color:'#FFAB00'} );
+            datasetECG.push( {data:line, color:'#FFAB00', shadowSize:0, lines:{show:true, lineWidth:1}} );
           }
           time+=40;
         }
@@ -126,7 +126,7 @@ var Plot = function() {
           if (count%5 ==0 ){
             /* datasetECG.push( {data:line, color:'#CA8907'} ); */
           }else{
-            datasetECG.push( {data:line, color:'#FFAB00'} );
+            datasetECG.push( {data:line, color:'#FFAB00',  shadowSize:0, lines:{show:true, lineWidth:1}} );
           }
         }
         
@@ -140,7 +140,7 @@ var Plot = function() {
           line.push( [time, 2500  ]  );
           line.push( [time, 7000 ]  );
           if (count%5 ==0 ){
-            datasetECG.push( {data:line, color:'#CA8907', lines:{show:true, lineWidth:5} } );
+            datasetECG.push( {data:line, color:'#CA8907', shadowSize:0, lines:{show:true, lineWidth:2} } );
           }else{
             /* datasetECG.push( {data:line, color:'#FFAB00'} ); */
           }
@@ -155,13 +155,13 @@ var Plot = function() {
           line.push( [valueStart, i  ]  );
           line.push( [valueEnd, i ]  );
           if (count%5 ==0 ){
-            datasetECG.push( {data:line, color:'#CA8907', lines:{show:true, lineWidth:5} } );
+            datasetECG.push( {data:line, color:'#CA8907', shadowSize:0, lines:{show:true, lineWidth:2} } );
           }else{
             /* datasetECG.push( {data:line, color:'#FFAB00'} ); */
           }
         }
   
-        datasetECG.push({data:ekgLine, color:ekgColor, lines:{show:true, lineWidth:5} });
+        datasetECG.push({data:ekgLine, color:ekgColor, lines:{show:true, lineWidth:3} });
 
         var pulsesLine = [];
         var pulsesLineUnder = [];

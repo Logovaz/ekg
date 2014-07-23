@@ -1,12 +1,13 @@
 @section('meta')
   <script type="text/javascript" src="[% URL::to('/') %]/js/excanvas.min.js"></script>
-  <script type="text/javascript" src="[% URL::to('/') %]/js/plot.min.js"></script>
+  <!-- <script type="text/javascript" src="[% URL::to('/') %]/js/plot.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.cursor.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.dateAxisRenderer.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.canvasOverlay.js"></script>
-  <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.highlighter.min.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/plot/jqplot.highlighter.min.js"></script> -->
   <script type="text/javascript" src="[% URL::to('/') %]/js/flot/jquery.flot.min.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/flot/jquery.flot.time.js"></script>
+  <script type="text/javascript" src="[% URL::to('/') %]/js/flot/jquery.flot.selection.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/calendar.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/graph.js"></script>
   <script type="text/javascript" src="[% URL::to('/') %]/js/jquery-ui.min.js"></script>
@@ -118,10 +119,10 @@
     <div id="placeholder" class="demo-placeholder"></div>
   </div>
   <div class="demo-container" style="height:350px;">
-    <div id="overview" class="demo-placeholder-small"></div>
+    <div id="overview" class="demo-placeholder"></div>
   </div>
 </div>
-<div class="demo-container" style="height:75px;">
+<div class="demo-container">
 <table border='1'>
   <tr>
     <td>HR: 120 bpm</td>

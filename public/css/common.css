@@ -717,9 +717,20 @@ td.info {
   padding-right: 5px;
 }
 
-.demo-placeholder {
-  height: 600px;
+.demo-container {
+  background: linear-gradient(#f6f6f6 0px, #fff 50px) repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border: 1px solid #ddd;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  height: 450px;
+  margin: 15px auto 30px;
+  padding: 20px 15px 15px;
+  width: 850px;
 }
-.demo-placeholder-small {
-  height: 300px;
+
+.demo-placeholder {
+    font-size: 14px;
+    height: 100%;
+    line-height: 1.2em;
+    width: 100%;
 }
