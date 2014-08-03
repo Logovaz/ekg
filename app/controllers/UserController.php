@@ -1,14 +1,14 @@
 <?php
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Input;
 /**
- * @author Iliya.Bubenschikov
+ * User controller to make most user's functions
+ * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+ * @version 1.0
  */
 class UserController extends Controller {
     
 	/**
 	 * Display index page 
-	 * @author Iliya.Bubenschikov
+	 * @author Iliya Bubenschikov <mephis.oct@gmail.com>
 	 * @return View 
 	 */
     public function home() {
@@ -18,7 +18,7 @@ class UserController extends Controller {
     
     /**
      * Display signup page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function signup() {
@@ -27,7 +27,7 @@ class UserController extends Controller {
     
     /**
      * Display signup confirmation page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function confirm() {
@@ -36,7 +36,7 @@ class UserController extends Controller {
     
     /**
      * Display information input (name, surname) page !
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function information() {
@@ -46,7 +46,7 @@ class UserController extends Controller {
     
     /**
      * Display contacts page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function contacts() {
@@ -55,7 +55,7 @@ class UserController extends Controller {
     
     /**
      * Display profile page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function profile() {
@@ -74,7 +74,7 @@ class UserController extends Controller {
     
     /**
      * Display admin control page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function control() {
@@ -83,7 +83,7 @@ class UserController extends Controller {
 
     /**
      * Display login page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function login() {
@@ -92,7 +92,7 @@ class UserController extends Controller {
     
     /**
      * @deprecated
-     * @author Roman.Kolomeets
+     * @author Roman Kolomeets <ramazan@ngs.ru>
      * @param int $id - user id
      */
     public function change($id) {        
@@ -101,7 +101,7 @@ class UserController extends Controller {
     
     /**
      * Display patients page - for doctor only
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function patients() {
@@ -111,7 +111,7 @@ class UserController extends Controller {
     
     /**
      * Display user search page - for doctor only
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View 
      */
     public function userSearch() {
@@ -120,7 +120,7 @@ class UserController extends Controller {
     
     /**
      * @deprecated
-     * @author Roman.Kolomeets
+     * @author Roman Kolomeets <ramazan@ngs.ru>
      * @param int $id
      * @return View
      */
@@ -132,7 +132,7 @@ class UserController extends Controller {
     
     /**
      * Display messages page
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return View
      */
     public function messages() {
@@ -145,7 +145,7 @@ class UserController extends Controller {
     
     /**
      * User logout
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return Redirect
      */
     public function logout() {
@@ -155,7 +155,7 @@ class UserController extends Controller {
     
     /**
      * Signup process
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return Redirect
      */
     public function signupProcess() {
@@ -179,7 +179,7 @@ class UserController extends Controller {
     
     /**
      * Send message - for doctor only
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return Redirect
      */
     public function sendMessage() {
@@ -193,7 +193,7 @@ class UserController extends Controller {
     
     /**
      * Send message with ajax request
-     * @author Iliya.Bubenschikov
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
      * @return Redirect json
      */
     public function sendAjaxMessage() {
@@ -205,6 +205,11 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Patient search process
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect with results
+     */
     public function patientsSearch() {
         $rules = array(
           'search' => 'required|email'  
@@ -223,6 +228,11 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Adding patient for current doctor
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect
+     */
     public function patientAdd() {
         $user = new User();
         if($user->addPatient(Input::get('user_id'))) {
@@ -232,6 +242,11 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Registration confirm process
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect to login page
+     */
     public function confirmProcess() {
         $rules = array(
                 'user_id' => 'required|integer',
@@ -251,6 +266,11 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Process of storing user information when registered before
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect to profile
+     */
     public function informationProcess() {
         $rules = array(
             'name' => 'required|alpha|min:2|max:32',
@@ -272,6 +292,11 @@ class UserController extends Controller {
         return Redirect::to('profile')->with('success', Lang::get('locale.information_updated'));
     }
     
+    /**
+     * Registration confirmation by link inside email
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect to login page
+     */
     public function confirmLink($id, $code) {
         $user = new User();
         if($user->registerByLink($id, $code)) {
@@ -280,6 +305,11 @@ class UserController extends Controller {
         return Redirect::to('login')->withErrors(Lang::get('locale.code_decline'));
     }
     
+    /**
+     * Login process
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect profile
+     */
     public function loginProcess() {
         $rules = array(
             'login' => 'required|email',
@@ -305,11 +335,23 @@ class UserController extends Controller {
         }
     }
     
+    /**
+     * Ajax response returns number of days in given month and year
+     * Used when user entering his information after registration to
+     * calculate days for select field
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Response json
+     */
     public function getDays() {
         $user = new User();
         return Response::json($user->getDays(Input::get('month'), Input::get('year')));
     }
 
+    /**
+     * User search process by email
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect to search page
+     */
     public function userSearchProcess() {
         $rules = array(
             'search' => 'required|email'
@@ -327,6 +369,12 @@ class UserController extends Controller {
         }
     }
 
+    /**
+     * Show user information for admin by his ID
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @param int $id
+     * @return View compiled page
+     */
     public function userView($id) {
         $user = new User();
         $profile = $user->getProfile($id);
@@ -334,6 +382,11 @@ class UserController extends Controller {
                 ->with('title', Lang::get('locale.common_title') . $profile->first_name . ' ' . $profile->last_name);
     }
 
+    /**
+     * Change user information by admin
+     * @author Iliya Bubenschikov <mephis.oct@gmail.com>
+     * @return Redirect back
+     */
     public function userChange() {
         $rules = array(
             'name' => 'required|alpha|min:2|max:32',

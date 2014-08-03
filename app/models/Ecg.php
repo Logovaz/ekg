@@ -25,7 +25,7 @@ class Ecg extends Eloquent {
     
     public function getGraphs($userId) {
         try {
-            $list = DB::table('graphs')->where('user_id', '=', $userId)->get();
+            $list = DB::table('graphs')->where('user_id', '=', $userId)->orderBy('start', 'DESC')->get();
             if(empty($list)) {
                 return false;
             }
@@ -37,7 +37,8 @@ class Ecg extends Eloquent {
     
     public function getPlotData($args) {
         $start = $args['start'];
-        $from = $start + (($args['step'] - 1) * $args['range']);
+        $end = $args['end'];
+        $from = $end + (($args['step'] - 1) * $args['range']);
         $to = $from + $args['range'];
         
         $data = DB::table('tp_' . $args['user_id'] . '_ekg')->select('*')->whereBetween('timestamp', array($from . '000', $to . '000'))->get();
@@ -53,6 +54,34 @@ class Ecg extends Eloquent {
         }
         return $result;
     }
+    
+    public function getLastTime( $args ){
+        $result = array();
+        $startTime = $args['start'];
+        $userId = $args['user_id'];
+        $timeString = date("Y-m-d H:i:s", ($startTime) );
+        
+        $result = DB::table('graphs')->select('end')
+                ->where('user_id', '=', $userId)
+                ->where('start', '=', $timeString)
+                ->get();
+        
+        $timeValue = array();
+        
+        
+        if(empty($result)) {
+            return "Empty";
+        }
+        if ( count( $result ) != 1){
+            return "more then 1";
+        }
+        
+        foreach($result as $key => $val) {
+            array_push($timeValue, $val->end);
+        }
+        return $timeValue;
+    }
+    
     
     /**
      * Get calendar set 
