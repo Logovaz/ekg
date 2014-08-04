@@ -52,6 +52,7 @@ var Plot = function() {
   };
   
   this.getData = function() {
+    var self = this;
     this.resetData();
     
     $.ajax({
@@ -271,7 +272,7 @@ var Plot = function() {
           self.graphECG.draw();
           self.graphECG.clearSelection();
 
-          overview.setSelection(ranges, true);
+          self.graphECG.setSelection(ranges, true);
         });
         
         $('#overview').bind('plotselected', function (event, ranges) {

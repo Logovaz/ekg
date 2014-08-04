@@ -49,7 +49,7 @@ class Ecg extends Eloquent {
             $time = $val->timestamp;
             foreach($volts as $volt) {
                 $time += 4;
-                array_push($result, array(intval( $time ), intval($volt)));
+                array_push($result, array($time, intval($volt)));
             }
         }
         return $result;
