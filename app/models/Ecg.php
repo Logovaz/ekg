@@ -2,6 +2,12 @@
 
 class Ecg extends Eloquent {
     
+    /**
+     * @deprecated
+     * @param int $step
+     * @param int $range
+     * @return array
+     */
     public function getExampleData($step, $range) {
         $start = substr(DB::table('ecg_example')->min('timestamp'), 0, -3);
         $from = $start + (($step-1) * $range);
@@ -17,12 +23,16 @@ class Ecg extends Eloquent {
                 if($volt != 0) {
                     array_push($result, array(intval(substr($time, -8)), intval($volt)));
                 }
-        
             }
         }
         return $result;
     }
     
+    /**
+     * Get list of user graphs
+     * @param int $userId
+     * @return boolean|array
+     */
     public function getGraphs($userId) {
         try {
             $list = DB::table('graphs')->where('user_id', '=', $userId)->orderBy('start', 'DESC')->get();
@@ -35,6 +45,11 @@ class Ecg extends Eloquent {
         }
     }
     
+    /**
+     * Get full plot data
+     * @param array $args - start <unixtime>, end <unixtime>, step <int>, range <int>
+     * @return array
+     */
     public function getPlotData($args) {
         $start = $args['start'];
         $end = $args['end'];
@@ -55,6 +70,11 @@ class Ecg extends Eloquent {
         return $result;
     }
     
+    /**
+     * Get unixtime of user graph endings
+     * @param array $args - start <unixtime>, user_id <int>
+     * @return string|multitype:
+     */
     public function getLastTime( $args ){
         $result = array();
         $startTime = $args['start'];
@@ -67,7 +87,6 @@ class Ecg extends Eloquent {
                 ->get();
         
         $timeValue = array();
-        
         
         if(empty($result)) {
             return "Empty";
@@ -134,6 +153,11 @@ class Ecg extends Eloquent {
         return $days;
     }
     
+    /**
+     * ?
+     * @param int $userId
+     * @return array
+     */
     public function getYears($userId) {
         $firstGraph = DB::table('graphs')->min('start');
         $firstYear = date('Y', strtotime($firstGraph));
@@ -149,6 +173,7 @@ class Ecg extends Eloquent {
         return $years;
     }
     
+    /*  */
     private function numWeeks($month, $year) {
         $num_weeks = 4;
         $first_day = $this->firstDay($month, $year);
