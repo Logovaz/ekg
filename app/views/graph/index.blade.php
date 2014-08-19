@@ -114,6 +114,106 @@
 </table>
 </div>
 
+<!-- div class="grey-block" style="width: 400px;">
+<table class="invisible-table control-table centered" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td class="td-right">
+      <span>Left limit:</span>
+    </td>
+    <td>
+      <div id="left-line-control" class="centered">
+        <a href="#" class="dec green-btn">Left</a>
+        <a href="#" class="inc green-btn">Right</a>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="td-right">
+      <span>Right limit:</span>
+    </td>
+    <td>
+      <div id="right-line-control" class="centered">
+        <a href="#" class="dec green-btn">Left</a>
+        <a href="#" class="inc green-btn">Right</a>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="td-right">
+      <span>Top limit:</span>
+    </td>
+    <td>
+      <div id="top-line-control" class="centered">
+        <a href="#" class="dec green-btn">Down</a>
+        <a href="#" class="inc green-btn">Up</a>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="td-right">
+      <span>Bottom limit:</span>
+    </td>
+    <td>
+      <div id="bottom-line-control" class="centered">
+        <a href="#" class="dec green-btn">Down</a>
+        <a href="#" class="inc green-btn">Up</a>
+      </div>
+    </td>
+  </tr>
+</table>
+</div-->
+
+<div class="white-block control-block">
+ 
+  <!-- input  id='datetime' name="min" value="19.05.2010 05:07:25" class="datepickerTimeField" -->
+  <input  id='datetime' name="min" value="[% $datetime %]" class="datepickerTimeField" >
+  <input id="time" type="submit" value="Select">
+  
+  
+
+  <input type="checkbox" id="flt"/><label for="flt">Filter</label>
+  <input type="checkbox" id="flt1"/><label for="flt1">5s-30s</label>
+    <select style="visibility: hidden" id="timerange">
+    <option value="5">5 sec</option>
+    <option value="10">10 sec</option>
+    <option value="30">30 sec</option>
+    <option value="1">1 min</option>
+  </select > 
+	Voltage
+	<input type="radio" name="group2" value="5"> 0,5
+	<input type="radio" name="group2" value="10" checked> 1,0
+	<input type="radio" name="group2" value="15" > 1,5 
+
+  <div id="ecg-buttons" >
+	<div>
+	</div>
+	<div>
+  <a id="to-start-btn1" href="#" class="green-btn">|< </a>
+  <a id="prev-btn1" href="#" class="green-btn"><</a>
+  <a id="refresh-btn1" href="#" class="green-btn">@</a>
+  <a id="next-btn1" href="#" class="green-btn">></a>
+  <a id="end-btn1" href="#" class="green-btn">>|</a>
+  </div>
+    </div>
+    <div style="height:20px">
+  
+	</div>
+	
+  <div>
+	<div>
+	</div>
+	<div>
+  <a id="to-start-btn" href="#" class="green-btn">|<</a>
+  <a id="prev-btn" href="#" class="green-btn"><</a>
+  <a id="refresh-btn" href="#" class="green-btn">@</a>
+  <a id="next-btn" href="#" class="green-btn">></a>
+  <a id="end-btn" href="#" class="green-btn">>|</a>
+	</div>
+  </div>
+
+
+</div>
+
 <div id="content">
   <div class="demo-container">
     <div id="placeholder" class="demo-placeholder"></div>

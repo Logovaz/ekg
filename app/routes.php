@@ -58,6 +58,7 @@ Route::get('article/{id}', array('before' => array('auth', 'admin'), 'uses' => '
 
 Route::post('ajax/getPlotExample', 'EcgController@getExampleData');
 Route::post('ajax/getPlot', 'EcgController@getPlot');
+Route::post('ajax/getLastTime', 'EcgController@getLastTime');
 Route::post('ajax/getCalendar', 'EcgController@getCalendar');
 Route::post('ajax/sendMessage', 'UserController@sendAjaxMessage');
 Route::post('ajax/getDays', 'UserController@getDays');

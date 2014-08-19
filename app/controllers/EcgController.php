@@ -37,6 +37,11 @@ class EcgController extends Controller {
         return Response::json($ecg->getPlotData(Input::all()));
     }
     
+    public function getLastTime() {
+        $ecg = new Ecg();
+        return Response::json($ecg->getLastTime(Input::all()));
+    }
+    
     /**
      * Show graph page with a lot of data
      * @author Iliya Bubenschikov <mephis.oct@gmail.com>
@@ -52,7 +57,9 @@ class EcgController extends Controller {
         $ecg = new Ecg(); /* Model initialize */
         $years = $ecg->getYears($user_id);
         return View::make('graph.index')->with('title', Lang::get('locale.common_title') . Auth::user()->first_name . ' ' . Auth::user()->last_name)
-               ->with('start', $range[0])->with('end', $range[1])->with('user_id', $user_id)->with('date', $date)->with('years', $years);
+               ->with('start', $range[0])->with('end', $range[1])->with('user_id', $user_id)->with('date', $date)->with('years', $years)
+               ->with('datetime', date( 'd.m.Y H:i:s', time()+7200 )
+               ) ;
     }
     
     /**
