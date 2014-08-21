@@ -171,8 +171,8 @@
   
   
 
-  <input type="checkbox" id="flt"/><label for="flt">Filter</label>
-  <input type="checkbox" id="flt1"/><label for="flt1">5s-30s</label>
+  <input type="checkbox" id="filter"/><label for="filter">Filter</label>
+  <input type="checkbox" id="filter_seconds"/><label for="filter_seconds">5s-30s</label>
     <select style="visibility: hidden" id="timerange">
     <option value="5">5 sec</option>
     <option value="10">10 sec</option>
@@ -180,9 +180,9 @@
     <option value="1">1 min</option>
   </select > 
 	Voltage
-	<input type="radio" name="group2" value="5"> 0,5
-	<input type="radio" name="group2" value="10" checked> 1,0
-	<input type="radio" name="group2" value="15" > 1,5 
+	<input type="radio" name="voltage_group" value="5"> 0,5
+	<input type="radio" name="voltage_group" value="10" checked> 1,0
+	<input type="radio" name="voltage_group" value="15" > 1,5 
 
   <div id="ecg-buttons" >
 	<div>
