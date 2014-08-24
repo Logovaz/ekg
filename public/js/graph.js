@@ -27,6 +27,13 @@ var Plot = function() {
   //Other settings
   this.checkBoxFilter = false;
   this.checkBoxGraphView = true;
+  
+  this.redLines = {
+    top: undefined,
+    bottom: undefined,
+    left: undefined,
+    right: undefined
+  };
 
   this.options = {
     verticalLineColor: '#000000',
@@ -60,6 +67,38 @@ var Plot = function() {
       self.arrays[index] = [];
     });
   };
+  
+  this.initRedLines = function() {
+    
+    var ecg = this.arrays.datasetECG;
+    var length = this.arrays.datasetECG.length;
+    var max = ecg[length - 2].data.length - 1;
+    
+    var leftData = ecg[length - 2].data[0][0];
+    if (typeof leftData === undefined) return false;
+    
+    var rightData = ecg[length - 2].data[max][0];
+    if (typeof rightData === undefined) return false;
+    
+    this.redLines.left = leftData;
+    this.redLines.right = rightData;
+    
+    this.arrays.datasetECG.push({
+      data: [
+        [this.redLines.left, this.topVoltageBorder],
+        [this.redLines.left, this.bottomVoltageBorder]
+      ],
+      color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}} 
+    );
+    
+    this.arrays.datasetECG.push({
+      data: [
+        [this.redLines.right, this.topVoltageBorder],
+        [this.redLines.right, this.bottomVoltageBorder]
+      ],
+      color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}} 
+    );
+  };
 
   this.getData = function() {
     var self = this;
@@ -77,11 +116,11 @@ var Plot = function() {
         user_id: $('#user_id').val()
       },
       success: function( response ) {
-        if(response === undefined) {
+        if (response === undefined) {
           alert('graph.js.Plot.GetData.fail');
           return false;
         }
-
+        
         /* Make empty blue line */ 
         if (response.length == 0){
           self.options.ecgColor = '#0000FF';
@@ -218,13 +257,15 @@ var Plot = function() {
           self.arrays.datasetPulse.push( {data: xTimeLines, color: self.options.pulseColor} );
         }
       
-        self.arrays.datasetPulse.push( {data: self.arrays.pulsesLine, color: '#ffa500', lines: {show: true, lineWidth: 1}} );
+        self.arrays.datasetPulse.push( {data: self.arrays.pulsesLine, color: '#ffa500', shadowSize: 0, lines: {show: true, lineWidth: 1}} );
         self.arrays.datasetPulse.push( {data: filterdLine, color:self.options.pulseColor, lines: {show: true, lineWidth: 1}} );
     
-        self.arrays.datasetPulse.push( {data: self.arrays.pulsesLineUnder, color: '#FF00FF'} );
-        self.arrays.datasetPulse.push( {data: self.arrays.pulsesLineOver, color: '#FF00FF'} );
+        self.arrays.datasetPulse.push( {data: self.arrays.pulsesLineUnder, color: '#FF00FF', shadowSize: 0} );
+        self.arrays.datasetPulse.push( {data: self.arrays.pulsesLineOver, color: '#FF00FF', shadowSize: 0} );
     
-        self.arrays.datasetPulse.push( {data: self.ecgTimeMarker, color: '#00FF00', lines: {show: true, lineWidth: 3}} );
+        self.arrays.datasetPulse.push( {data: self.ecgTimeMarker, color: '#00FF00', shadowSize: 0, lines: {show: true, lineWidth: 1}} );
+
+        self.initRedLines(response);
 
         var optionsECG = {
           xaxis: {
@@ -244,8 +285,9 @@ var Plot = function() {
             hoverable: true
           }
         };
-        self.graphECG = $.plot('#placeholder', self.arrays.datasetECG, optionsECG);
         
+        self.graphECG = $.plot('#placeholder', self.arrays.datasetECG, optionsECG);
+
         var optionsPulse = {
           series: {
             lines: {
@@ -260,7 +302,7 @@ var Plot = function() {
           },
           yaxis: {
             min: 20,
-            max:120,        //autoscaleMargin: .01//autoscaleMargin: 0.1
+            max: 120,        //autoscaleMargin: .01//autoscaleMargin: 0.1
             tickSize:20
           },
           selection: {
@@ -355,9 +397,9 @@ var Plot = function() {
       line.push( [lineTimeStart - calibrationPlace, i] );
       line.push( [lineTimeEnd, i] );
       if ((count - 1) % 5 == 0) {
-        this.arrays.datasetECG.push( {data: line, color: '#CA8907', lines: {show: true, lineWidth: 3}} );
+        this.arrays.datasetECG.push( {data: line, color: '#CA8907', shadowSize: 0, lines: {show: true, lineWidth: 1}} );
       } else {
-        this.arrays.datasetECG.push( {data: line, color: '#FFAB00'} );
+        this.arrays.datasetECG.push( {data: line, color: '#FFAB00', shadowSize: 0, lines: {show: true, lineWidth: 1}} );
       }
     }
 
@@ -370,14 +412,14 @@ var Plot = function() {
       line.push( [time, this.bottomVoltageBorder] );
       line.push( [time, this.topVoltageBorder] );
       if ((count - 1) % 5 == 0) {
-        this.arrays.datasetECG.push( {data: line, color: '#CA8907', lines: {show: true, lineWidth: 3}} );
+        this.arrays.datasetECG.push( {data: line, color: '#CA8907', shadowSize: 0, lines: {show: true, lineWidth: 1}} );
       } else {
-        this.arrays.datasetECG.push( {data: line, color: '#FFAB00'} );
+        this.arrays.datasetECG.push( {data: line, color: '#FFAB00', shadowSize: 0, lines: {show: true, lineWidth: 1}} );
       }
       time += 40;
     }
 
-    this.arrays.datasetECG.push( {data: partEcg, color: this.options.ecgColor, lines: {show: true, lineWidth: 3}} );
+    this.arrays.datasetECG.push( {data: partEcg, color: this.options.ecgColor, shadowSize: 0, lines: {show: true, lineWidth: 2}} );
     this.MakeCalibrationLine( lineTimeStart - calibrationPlace );
   }
 
@@ -409,7 +451,7 @@ var Plot = function() {
     calibrationLine.push( [graphTimeStart + 400, this.bottomVoltageBorder + 750] );
     calibrationLine.push( [graphTimeStart + 500, this.bottomVoltageBorder + 750] );
 
-    this.arrays.datasetECG.push( {data: calibrationLine, color: this.options.ecgColor, lines: {show: true, lineWidth: 5}} );
+    this.arrays.datasetECG.push( {data: calibrationLine, color: this.options.ecgColor, lines: {show: true, lineWidth: 2}} );
   };
 
   this.increaseStep = function() {
