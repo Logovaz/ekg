@@ -29,10 +29,34 @@ var Plot = function() {
   this.checkBoxGraphView = true;
   
   this.redLines = {
-    top: undefined,
-    bottom: undefined,
-    left: undefined,
-    right: undefined
+    top: {
+      type: 'horizontal',
+      y: undefined,
+      topX: undefined,
+      bottomX: undefined,
+      limit: undefined
+    },
+    bottom: {
+      type: 'horizontal',
+      y: undefined,
+      topX: undefined,
+      bottomX: undefined,
+      limit: undefined
+    },
+    left: {
+      type: 'vertical',
+      x: undefined,
+      topY: undefined,
+      bottomY: undefined,
+      limit: undefined
+    },
+    right: {
+      type: 'vertical',
+      x: undefined,
+      topY: undefined,
+      bottomY: undefined,
+      limit: undefined
+    }
   };
 
   this.options = {
@@ -69,10 +93,12 @@ var Plot = function() {
   };
   
   this.initRedLines = function() {
-    
     var ecg = this.arrays.datasetECG;
+    
     var length = this.arrays.datasetECG.length;
     var max = ecg[length - 2].data.length - 1;
+    
+    if (max < 1) return false;
     
     var leftData = ecg[length - 2].data[0][0];
     if (typeof leftData === undefined) return false;
@@ -80,24 +106,196 @@ var Plot = function() {
     var rightData = ecg[length - 2].data[max][0];
     if (typeof rightData === undefined) return false;
     
-    this.redLines.left = leftData;
-    this.redLines.right = rightData;
+    this.redLines.left.x = leftData;
+    this.redLines.left.topY = this.topVoltageBorder;
+    this.redLines.left.bottomY = this.bottomVoltageBorder;
+    this.redLines.left.limit = leftData;
+    
+    this.redLines.right.x = rightData;
+    this.redLines.right.topY = this.topVoltageBorder;
+    this.redLines.right.bottomY = this.bottomVoltageBorder;
+    this.redLines.right.limit = rightData;
+    
+    this.redLines.top.y = this.topVoltageBorder;
+    this.redLines.top.topX = leftData;
+    this.redLines.top.bottomX = rightData;
+    this.redLines.top.limit = this.topVoltageBorder;
+    
+    this.redLines.bottom.y = this.bottomVoltageBorder;
+    this.redLines.bottom.topX = leftData;
+    this.redLines.bottom.bottomX = rightData;
+    this.redLines.bottom.limit = this.bottomVoltageBorder;
     
     this.arrays.datasetECG.push({
       data: [
-        [this.redLines.left, this.topVoltageBorder],
-        [this.redLines.left, this.bottomVoltageBorder]
+        [this.redLines.left.x, this.redLines.left.topY],
+        [this.redLines.left.x, this.redLines.left.bottomY]
       ],
       color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}} 
     );
     
     this.arrays.datasetECG.push({
       data: [
-        [this.redLines.right, this.topVoltageBorder],
-        [this.redLines.right, this.bottomVoltageBorder]
+        [this.redLines.right.x, this.redLines.right.topY],
+        [this.redLines.right.x, this.redLines.right.bottomY]
       ],
       color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}} 
     );
+    
+    this.arrays.datasetECG.push({
+      data: [
+        [this.redLines.top.topX, this.redLines.top.y],
+        [this.redLines.top.bottomX, this.redLines.top.y]
+      ],
+      color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}} 
+    );
+    
+    this.arrays.datasetECG.push({
+      data: [
+        [this.redLines.bottom.topX, this.redLines.bottom.y],
+        [this.redLines.bottom.bottomX, this.redLines.bottom.y]
+      ],
+      color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}} 
+    );
+    
+  };
+  
+  this.moveRedLine = function(linePosition, direction) {
+    switch (linePosition) {
+      case 'left': {
+        var line = this.redLines.left;
+        var lowLimit = this.redLines.left.limit;
+        var highLimit = this.redLines.right.x;
+        break;
+      }
+      case 'right': {
+        var line = this.redLines.right;
+        var lowLimit = this.redLines.left.x;
+        var highLimit = this.redLines.right.limit;
+        break;
+      }
+      case 'top': {
+        var line = this.redLines.top;
+        var lowLimit = this.redLines.bottom.y;
+        var highLimit = this.redLines.top.limit;
+        break;
+      }
+      case 'bottom': {
+        var line = this.redLines.bottom;
+        var lowLimit = this.redLines.bottom.limit;
+        var highLimit = this.redLines.top.y;
+        break;
+      }
+    }
+
+    switch (direction) {
+      case 'right': {
+        if (line.x >= lowLimit && line.x <= highLimit) {
+          line.x += 10;
+        } else {
+          line.x -= 10;
+        }
+        break;
+      }
+      case 'left': {
+        if (line.x >= lowLimit && line.x <= highLimit) {
+          line.x -= 10;
+        } else {
+          line.x += 10;
+        }
+        break;
+      }
+      case 'up': {
+        if (line.y >= lowLimit && line.y <= highLimit) {
+          line.y += 10;
+        } else {
+          line.y -= 10;
+        }
+        break;
+      }
+      case 'down': {
+        if (line.y >= lowLimit && line.y <= highLimit) {
+          line.y -= 10;
+        } else {
+          line.y += 10;
+        }
+        break;
+      }
+    }
+
+    var length = this.arrays.datasetECG.length;
+    
+    switch (linePosition) {
+      case 'left': {
+        this.redLines.left.x = line.x;
+        this.arrays.datasetECG[length - 4].length = 0;
+        this.arrays.datasetECG[length - 4] = {
+          data: [
+            [this.redLines.left.x, this.redLines.left.topY],
+            [this.redLines.left.x, this.redLines.left.bottomY]
+          ],
+          color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}
+        };
+        break;
+      }
+      case 'right': {
+        this.redLines.right.x = line.x;
+        this.arrays.datasetECG[length - 3].length = 0;
+        this.arrays.datasetECG[length - 3] = {
+          data: [
+            [this.redLines.right.x, this.redLines.left.topY],
+            [this.redLines.right.x, this.redLines.left.bottomY]
+          ],
+          color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}
+        };
+        break;
+      }
+      case 'top': {
+        this.redLines.top.y = line.y;
+        this.arrays.datasetECG[length - 2].length = 0;
+        this.arrays.datasetECG[length - 2] = {
+          data: [
+            [this.redLines.top.topX, this.redLines.top.y],
+            [this.redLines.top.bottomX, this.redLines.top.y]
+          ],
+          color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}
+        };
+        break;
+      }
+      case 'bottom': {
+        this.redLines.bottom.y = line.y;
+        this.arrays.datasetECG[length - 2].length = 0;
+        this.arrays.datasetECG[length - 2] = {
+          data: [
+            [this.redLines.bottom.topX, this.redLines.bottom.y],
+            [this.redLines.bottom.bottomX, this.redLines.bottom.y]
+          ],
+          color: 'red', shadowSize: 0, lines: {show: true, lineWidth: 1}
+        };
+        break;
+      }
+    }
+
+    var optionsECG = {
+        xaxis: {
+          mode: 'time',
+          timeformat: '%d-%m-%Y %H:%M:%S',
+        },  
+        yaxis: {
+          min: this.bottomVoltageBorder,
+          max: this.topVoltageBorder
+        },
+        selection: {
+          mode: 'x'
+        },
+        grid: {
+          markings: this.weekendAreas,
+          backgroundColor: '#F0E68C' ,
+          hoverable: true
+        }
+      };
+      
+      this.graphECG = $.plot('#placeholder', this.arrays.datasetECG, optionsECG);
   };
 
   this.getData = function() {
@@ -727,18 +925,35 @@ $(function() {
   //line control
   $('#left-line-control').click(function ( event ) {
     event.preventDefault();
-    alert('Tlacitko je ve vyvoji :)');
-    });
+    if ($(event.target).hasClass('inc')) {
+      plot.moveRedLine('left', 'right');
+    } else {
+      plot.moveRedLine('left', 'left'); 
+    }
+  });
   $('#right-line-control').click(function ( event ) {
     event.preventDefault();
-    alert('Tlacitko je ve vyvoji :)');
-    });
+    if ($(event.target).hasClass('inc')) {
+      plot.moveRedLine('right', 'right');
+    } else {
+      plot.moveRedLine('right', 'left'); 
+    }
+  });
   $('#top-line-control').click(function ( event ) {
     event.preventDefault();
-    alert('Tlacitko je ve vyvoji :)');
-    });
+    if ($(event.target).hasClass('inc')) {
+      plot.moveRedLine('top', 'up');
+    } else {
+      plot.moveRedLine('top', 'down'); 
+    }
+  });
   $('#bottom-line-control').click(function ( event ) {
     event.preventDefault();
-    alert('Tlacitko je ve vyvoji :)');
-    });
+    event.preventDefault();
+    if ($(event.target).hasClass('inc')) {
+      plot.moveRedLine('bottom', 'up');
+    } else {
+      plot.moveRedLine('bottom', 'down'); 
+    }
+  });
 });
