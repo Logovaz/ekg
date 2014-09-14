@@ -157,9 +157,31 @@ class User extends Eloquent implements UserInterface {
     }
     public function getPatients() {
         try {
-            $patients = DB::table('users')->join('relations', 'users.id', '=', 'relations.user_id')
-                                          ->select('*')->where('doctor_id', '=', Auth::user()->id)
-                                          ->where('state', '=', 'registered')->get();
+            $stmt = "
+                select
+                    u.`id`,
+                    u.`first_name`,
+                    u.`last_name`,
+                    u.`email`,
+                    u.`login`,
+                    r.`status`
+                from
+                    `users` as u
+                inner join
+                    `relations` as r
+                on
+                    u.`id` = r.`user_id`
+                where
+                    r.`doctor_id` = :doctor_id
+                and
+                    u.`state` = 'registered'
+            ";
+            
+            $bindings = array(
+                'doctor_id' => Auth::user()->id
+            );
+            $patients = DB::select(DB::raw($stmt), $bindings);
+
             if(empty($patients)) {
                 return false;
             }

@@ -50,11 +50,11 @@
     @foreach($patients as $patient)
       <div class="grey-block centered">
         <div class="notification inlined">
-          <a class="undecorated" href="[% URL::to('/') %]/user/[% $patient->id %]">[% $patient->first_name %] [% $patient->last_name %] ([% $patient->login %])</a>
+          <a class="undecorated" href="[% URL::to('/') %]/user/[% $patient->id %]/graphs">[% $patient->first_name %] [% $patient->last_name %] ([% $patient->login %])</a>
           @if($patient->status == 'waiting')
             <div class="time-btn inlined" title="[% Lang::get('locale.waiting_status') %]"></div>
           @else
-            <div class="mail-btn inlined" title="[% Lang::get('locale.send_message') %]"><input type="hidden" value="[% $patient->user_id %]"></input></div>
+            <div class="mail-btn inlined" title="[% Lang::get('locale.send_message') %]"><input type="hidden" value="[% $patient->id %]"></input></div>
           @endif
         </div>
       </div>
