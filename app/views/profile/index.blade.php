@@ -62,8 +62,12 @@
   </div>
 @else
   @foreach($graphs as $graph)
-    <div class="white-block messages-block">
-      <a class="undecorated blue" href="[% URL::to('/') %]/graph/[% $user_id %]/[% strtotime($graph->start) %]_[% strtotime($graph->end) %]" target="blank_">[% $graph->start %] - [% $graph->end %]</a>
+    <div class="white-block profileGraphOuter">
+      <div class="profileGraphInner">
+        <a class="undecorated blue" href="[% URL::to('/') %]/graph/[% $user_id %]/[% $graph['unix_start'] %]_[% $graph['unix_end'] %]" target="blank_">
+          <span class="profileGraphDate">[% $graph['date'] %]</span> <sup class="profileGraphTime">([% $graph['time'] %])</sup>
+        </a>
+      </div>
     </div>
   @endforeach
 @endif

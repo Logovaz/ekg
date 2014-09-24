@@ -39,7 +39,28 @@ class Ecg extends Eloquent {
             if(empty($list)) {
                 return false;
             }
-            return $list;
+            $result = array();
+            foreach ($list as $item) {
+                $unixStart = strtotime($item->start);
+                $unixEnd = strtotime($item->end);
+
+                $start = date('d.m.Y', $unixStart);
+                $end = date('d.m.Y', $unixEnd);
+
+                if ($start == $end) {
+                    $date = $start;
+                } else {
+                    $date = $start . ' ' . $end;
+                }
+
+                $result[] = array(
+                    'date' => $date,
+                    'time' => date('G:i:s', $unixStart) . ' - ' . date('G:i:s', $unixEnd),
+                    'unix_start' => $unixStart,
+                    'unix_end' => $unixEnd
+                );
+            }
+            return $result;
         } catch (Exception $e) {
             return false;
         }
@@ -51,13 +72,12 @@ class Ecg extends Eloquent {
      * @return array
      */
     public function getPlotData($args) {
-        $start = $args['start'];
         $end = $args['end'];
         $from = $end + (($args['step'] - 1) * $args['range']);
         $to = $from + $args['range'];
         
         $data = DB::table('tp_' . $args['user_id'] . '_ekg')->select('*')->whereBetween('timestamp', array($from . '000', $to . '000'))->get();
-        
+
         $result = array();
         foreach($data as $key => $val) {
             $volts = explode('*', $val->values);
@@ -76,7 +96,6 @@ class Ecg extends Eloquent {
      * @return string|multitype:
      */
     public function getLastTime( $args ){
-        $result = array();
         $startTime = $args['start'];
         $userId = $args['user_id'];
         $timeString = date("Y-m-d H:i:s", ($startTime) );

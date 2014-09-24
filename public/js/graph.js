@@ -279,7 +279,7 @@ var Plot = function() {
     var optionsECG = {
         xaxis: {
           mode: 'time',
-          timeformat: '%d-%m-%Y %H:%M:%S',
+          timeformat: '%d-%m-%Y %H:%M:%S'
         },  
         yaxis: {
           min: this.bottomVoltageBorder,
@@ -468,7 +468,7 @@ var Plot = function() {
         var optionsECG = {
           xaxis: {
             mode: 'time',
-            timeformat: '%d-%m-%Y %H:%M:%S',
+            timeformat: '%d-%m-%Y %H:%M:%S'
           },  
           yaxis: {
             min: self.bottomVoltageBorder,
@@ -521,7 +521,7 @@ var Plot = function() {
           self.graphECG.draw();
           self.graphECG.clearSelection();
 
-          overview.setSelection(ranges, true);
+            self.graphPulse.setSelection(ranges, true);
         });
         
         $('#overview').bind('plotselected', function (event, ranges) {
