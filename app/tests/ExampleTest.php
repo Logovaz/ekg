@@ -7,11 +7,8 @@ class ExampleTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testBasicExample()
-	{
-		$crawler = $this->client->request('GET', '/?123');
+	public function testEcgGetGraphs(){
 
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

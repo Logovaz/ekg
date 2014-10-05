@@ -104,6 +104,7 @@ class User extends Eloquent implements UserInterface {
                 'weight' => $args['weight'],
                 'birthday' => $birthday,
                 'gender' => $args['gender'],
+                'timezone' => $args['timezone'],
                 'state' => 'registered'
             ));
             return $id;

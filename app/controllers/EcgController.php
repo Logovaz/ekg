@@ -34,7 +34,7 @@ class EcgController extends Controller {
      */
     public function getPlot() {
         $ecg = new Ecg(); /* Model initialize */
-        return Response::json($ecg->getPlotData(Input::all()));
+        return Response::json($ecg->getGraphData(Input::all()));
     }
     
     public function getLastTime() {

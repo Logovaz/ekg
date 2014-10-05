@@ -90,6 +90,6 @@ return array (
     'male' => 'Male',
     'female' => 'Female',
     'birthday' => 'Birthday',
-    'gender' => 'Gender'
-    
+    'gender' => 'Gender',
+    'your_timezone' => 'Your timezone'
 );

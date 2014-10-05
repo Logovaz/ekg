@@ -1,6 +1,9 @@
 <?php
 
 class Ecg extends Eloquent {
+    private $graphs = array();
+    private $pulseData = array();
+    private $userMarkingsData = array();
     
     /**
      * @deprecated
@@ -68,37 +71,142 @@ class Ecg extends Eloquent {
     
     /**
      * Get full plot data
-     * @param array $args - start <unixtime>, end <unixtime>, step <int>, range <int>
+     * @param array $parameters - start <unixtime>, end <unixtime>, step <int>, range <int>
      * @return array
      */
-    public function getPlotData($args) {
-        $end = $args['end'];
-        $from = $end + (($args['step'] - 1) * $args['range']);
-        $to = $from + $args['range'];
-        
-        $data = DB::table('tp_' . $args['user_id'] . '_ekg')->select('*')->whereBetween('timestamp', array($from . '000', $to . '000'))->get();
+    public function getGraphData($parameters) {
+        $from = $parameters['start'] + ($parameters['step'] - 1) * $parameters['range'];
+        $to = $from + $parameters['range'];
 
-        $result = array();
-        foreach($data as $key => $val) {
-            $volts = explode('*', $val->values);
-            $time = $val->timestamp;
-            foreach($volts as $volt) {
+        if ($to > $parameters['end']) $to = $parameters['end'];
+
+        $data = DB::table("tp_{$parameters['user_id']}_ekg")->select('*')->whereBetween('timestamp', array("{$from}000", "{$to}000"))->get();
+
+        $graphData = array();
+        foreach ($data as $value) {
+            $volts = explode('*', $value->values);
+            $time = $value->timestamp;
+            foreach ($volts as $volt) {
                 $time += 4;
-                array_push($result, array($time, intval($volt)));
+                switch (intval($volt)) {
+                    case 0: $this->pulseData[] = $time; break;
+                    case -1: $this->userMarkingsData[] = $time; break;
+                    default: $graphData[] = array($time, intval($volt)); break;
+                }
             }
         }
-        return $result;
+
+        if (($from + $parameters['range']) > $parameters['end']) {
+            $additionalValuesCount = $parameters['range'] * 250 - count($graphData);
+            $lastValue = end($graphData);
+            $additionalTime = $lastValue[0];
+            $additionalValue = Config::get('graph.bottom_voltage_border') + 1500;
+
+            for ($i = 0; $i < $additionalValuesCount; $i++) {
+                $additionalTime += 4;
+                $graphData[] = array($additionalTime, $additionalValue);
+            }
+        }
+
+        $this->getGraphGrid($graphData);
+
+        $options = array(
+            'data' => $graphData,
+            'lines' => array('show' => true, 'lineWidth' => 2)
+        );
+        $this->graphs['ecg'][] = $this->getLine($options);
+
+        $this->getPulseLine();
+
+        return $this->graphs;
     }
-    
+
+    private function getGraphGrid($graphData) {
+        $graphTimeStart = $graphData[0][0];
+        $graphTimeEnd = $graphData[count($graphData) - 1][0];
+
+        $topVoltageBorder = Config::get('graph.top_voltage_border');
+        $bottomVoltageBorder = Config::get('graph.bottom_voltage_border');
+
+        $linesCount = 0;
+
+        /* Vertical grid lines */
+        for ($i = $graphTimeStart; $i < $graphTimeEnd; $i += 40) {
+            $lineColor = ($linesCount % 5 == 0) ? '#CA8907' : '#FFAB00';
+
+            $options = array(
+                'data' => array(
+                    array($i, $topVoltageBorder),
+                    array($i, $bottomVoltageBorder)
+                ),
+                'color' => $lineColor
+            );
+            $this->graphs['ecg'][] = $this->getLine($options);
+            $linesCount++;
+        }
+
+        $linesCount = 0;
+
+        /* Horizontal grid lines*/
+        for ($i = $bottomVoltageBorder; $i < $topVoltageBorder; $i += 150) {
+            $lineColor = ($linesCount % 5 == 0) ? '#CA8907' : '#FFAB00';
+
+            $options = array(
+                'data' => array(
+                    array($graphTimeStart, $i),
+                    array($graphTimeEnd, $i)
+                ),
+                'color' => $lineColor
+            );
+            $this->graphs['ecg'][] = $this->getLine($options);
+            $linesCount++;
+        }
+    }
+
+    private function getPulseLine() {
+        if (empty($this->pulseData)) {
+            $this->graphs['pulse'] = array();
+            return;
+        }
+
+        $pulseValues = array();
+        for ($i = 1; $i < count($this->pulseData); $i++) {
+            $difference = $this->pulseData[$i] - $this->pulseData[$i - 1];
+            $pulse = 60000 / $difference;
+
+            $pulseValues[] = array($this->pulseData[$i], $pulse);
+        }
+
+        $this->graphs['pulse'][] = $this->getLine(array('data' => $pulseValues));
+    }
+
+    private function getLine($options = array()) {
+        $line = array(
+            'data' => array(),
+            'color' => '#000000',
+            'shadowSize' => 0,
+            'lines' => array(
+                'show' => true,
+                'lineWidth' => 1
+            )
+        );
+
+        foreach ($options as $name => $value) {
+            $line[$name] = $value;
+        }
+
+        return $line;
+    }
+
     /**
      * Get unixtime of user graph endings
      * @param array $args - start <unixtime>, user_id <int>
      * @return string|multitype:
      */
-    public function getLastTime( $args ){
+    public function getLastTime($args){
         $startTime = $args['start'];
         $userId = $args['user_id'];
-        $timeString = date("Y-m-d H:i:s", ($startTime) );
+        $timeString = date("Y-m-d H:i:s", ($startTime));
         
         $result = DB::table('graphs')->select('end')
                 ->where('user_id', '=', $userId)

@@ -308,12 +308,57 @@ var Plot = function() {
       dataType: 'json',
       data: {
         step: self.step,
-        range: 30,
+        range: 5,
         start: self.recordStart,
         end: self.recordEnd,
         user_id: $('#user_id').val()
       },
       success: function( response ) {
+          var optionsECG = {
+              xaxis: {
+                  mode: 'time',
+                  timeformat: '%d-%m-%Y %H:%M:%S'
+              },
+              yaxis: {
+                  min: self.bottomVoltageBorder,
+                  max: self.topVoltageBorder
+              },
+              selection: {
+                  mode: 'x'
+              },
+              grid: {
+                  markings: self.weekendAreas,
+                  backgroundColor: '#F0E68C' ,
+                  hoverable: true
+              }
+          };
+
+          self.graphECG = $.plot('#placeholder', response.ecg, optionsECG);
+
+          self.graphPulse = $.plot('#overview', response.pulse, optionsPulse);
+
+          $('#placeholder').bind('plotselected', function (event, ranges) {
+              /* Do the zooming */
+              $.each(self.graphECG.getXAxes(), function(_, axis) {
+                  var opts = axis.options;
+                  opts.min = ranges.xaxis.from;
+                  opts.max = ranges.xaxis.to;
+              });
+              self.graphECG.setupGrid();
+              self.graphECG.draw();
+              self.graphECG.clearSelection();
+
+              self.graphPulse.setSelection(ranges, true);
+          });
+
+          $('#overview').bind('plotselected', function (event, ranges) {
+              self.graphECG.setSelection(ranges);
+          });
+
+
+          return;
+
+
         if (response === undefined) {
           alert('graph.js.Plot.GetData.fail');
           return false;
@@ -566,9 +611,6 @@ var Plot = function() {
 
   this.makeGraphNetwork = function() {
     var partEcg = [];
-    var ecgPartTime = 5000;
-    var lineTimeStart = this.startGraph;
-    var lineTimeEnd = this.endGraph;
     this.ecgTimeMarker = [];
     if (this.checkBoxGraphView) {  // part of ecg line 5 s
       var lineTimeStart = this.endGraph + (5000 * (this.stepEcg - 1));
