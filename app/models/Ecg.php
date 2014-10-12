@@ -115,6 +115,7 @@ class Ecg extends Eloquent {
             'lines' => array('show' => true, 'lineWidth' => 2)
         );
         $this->graphs['ecg'][] = $this->getLine($options);
+        $this->getUserMarkings();
 
         $this->getPulseLine();
 
@@ -160,6 +161,28 @@ class Ecg extends Eloquent {
             );
             $this->graphs['ecg'][] = $this->getLine($options);
             $linesCount++;
+        }
+    }
+
+    private function getUserMarkings() {
+        if (empty($this->userMarkingsData)) {
+            return false;
+        }
+
+        foreach ($this->userMarkingsData as $mark) {
+            $options = array(
+                'data' => array(
+                    array($mark, Config::get('graph.top_voltage_border')),
+                    array($mark, Config::get('graph.top_voltage_border')),
+                ),
+                'color' => '#3399CC',
+                'lines' => array(
+                    'show' => true,
+                    'lineWidth' => 2
+                )
+            );
+
+            $this->graphs['ecg'][] = $this->getLine($options);
         }
     }
 
